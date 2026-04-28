@@ -1,38 +1,159 @@
-.App {
+.app {
+  max-width: 40%;
+  margin: 20px auto;
+  padding: 24px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  background-color: #307481;
+}
+
+hr {
+  border: none;
+  height: 2px;
+  background-color: #0f172a;;
+}
+
+.new-template-btn {
+ margin: 15px auto;
+  padding: 10px 17px;
+  background: #181f18;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+body {
+  background: #0f172a;
+  color: #e5e7eb;
+  font-family: system-ui, sans-serif;
+}
+
+.new-template-form {
+  margin: 40px auto;
+  padding: 24px;
+  background: #1e293b;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.template-name {
+  margin: 10px 0;
+}
+
+.new-template-form input {
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #334155;
+  background: #0f172a;
+  color: white;
+  font-size: 16px;
+}
+
+.exercise-container {
+    display: grid;
+    grid-template-columns: 12fr 1fr;
+    gap: 12px 0 0;
+    justify-content: space-between;
+    align-items: anchor-center;
+}
+
+.new-exercise-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 10px;
+  padding: 12px;
+  background: #0f172a;
+  border-radius: 12px;
+  border: 1px solid #334155;
+}
+
+@media (max-width: 480px) {
+  .new-exercise-form {
+    grid-template-columns: 1fr;
+  }
+  .app {
+    max-width: 100%;
+  }
+}
+
+.new-exercise-form input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #334155;
+  background: #020617;
+  color: white;
+  font-size: 14px;
+  min-width: 0;
+}
+
+.new-exercise-form input[type="number"] {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+input:focus {
+  outline: none;
+  border-color: #22c55e;
+  box-shadow: 0 0 0 1px #22c55e;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+button {
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+button[type="button"] {
+  background: #334155;
+  color: #e2e8f0;
+}
+
+button[type="button"]:hover {
+  background: #475569;
+}
+
+/* save */
+button[type="submit"] {
+  background: #22c55e;
+  color: #022c22;
+}
+
+button[type="submit"]:hover {
+  background: #16a34a;
+}
+
+.form-buttons {
+  margin: 15px 0;
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+}
+
+.template {
+  padding: 10px 20px;
+  background: #1e293b;
+  border-radius: 12px;
+  margin: 10px 0;
+  display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  justify-content: space-between;
 }
 
-.App-link {
-  color: #61dafb;
+.delete-icon {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.form-error-message {
+  margin: 0 10px 10px;
+  color: #ef4444;
+  font-size: 14px;
 }
