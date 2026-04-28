@@ -147,16 +147,16 @@ function GymRat({ templates, setTemplates }) {
           >
             <div className="template">
               <h4>{template.name}</h4>
-              <img
-                src={deleteIcon}
-                alt="Delete template"
+              <button
                 className="delete-icon"
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
                   deleteTemplate(template.id);
                 }}
-              />
+              >
+                <img src={deleteIcon} alt="Delete template" />
+              </button>
             </div>
           </Link>
         ))}

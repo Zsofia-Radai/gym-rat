@@ -75,14 +75,13 @@ function NewTemplateForm({
                   handleFormChange(exercise.id, "kg", e.target.value)
                 }
               />
-              <div>
-                <img
-                  className="delete-icon"
-                  src={deleteIcon}
-                  alt="Delete exercise"
-                  onClick={() => deleteExercise(exercise.id)}
-                />
-              </div>
+              <button
+                className="icon-button delete-icon"
+                onClick={() => deleteExercise(exercise.id)}
+                aria-label="Delete exercise"
+              >
+                <img src={deleteIcon} alt="Delete exercise" />
+              </button>
             </div>
             {formErrors.exercises[index]?.error && (
               <div className="form-error-message">

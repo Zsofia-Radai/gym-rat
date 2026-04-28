@@ -1,5 +1,6 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import previous from "../../resources/previous.png";
+import edit from "../../resources/edit.png";
 import "./TemplateDetails.css";
 
 function TemplateDetails({ templates }) {
@@ -13,7 +14,14 @@ function TemplateDetails({ templates }) {
 
   return (
     <div className="page">
-      <h2>{template.name}</h2>
+      <div className="template-details-header">
+        <h2>{template.name}</h2>
+        <Link to={`/template/${template.id}/edit`}>
+          <button className="edit-button">
+            <img src={edit} alt="Edit exercise" />
+          </button>
+        </Link>
+      </div>
       <div className="exercises">
         {template.exercises.map((exercise) => (
           <div key={exercise.id} className="exercise">
@@ -33,7 +41,7 @@ function TemplateDetails({ templates }) {
           </div>
         ))}
       </div>
-      <button className="back-button" onClick={() => navigate(-1)}>
+      <button className="back-button" onClick={() => navigate("/")}>
         <img src={previous} alt="Back" />
       </button>
     </div>
