@@ -1,0 +1,24 @@
+.exercises {
+    padding: 10px;
+}
+
+.exercise {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background: #1e293b;
+    border-radius: 12px;
+    margin: 10px;
+}
+
+.back-button {
+    background: none;
+    cursor: pointer;
+}
+
+.back-button img {
+    width: 22px;
+    height: 25px;
+    object-fit: contain;
+}

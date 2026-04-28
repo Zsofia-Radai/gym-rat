@@ -1,4 +1,4 @@
-.app {
+.page {
   max-width: 40%;
   margin: 20px auto;
   padding: 24px;
@@ -35,7 +35,7 @@ body {
   .new-exercise-form {
     grid-template-columns: 1fr;
   }
-  .app {
+  .page {
     max-width: 100%;
   }
 }
@@ -88,3 +88,23 @@ button[type="submit"]:hover {
   height: 25px;
   cursor: pointer;
 }
+
+.template-link,
+.template-link:visited,
+.template-link:active {
+  text-decoration: none;
+  color: inherit;
+}
+
+.template-link {
+  display: block;
+}
+
+.template {
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+/* .template:hover {
+  transform: scale(1.02);
+} */

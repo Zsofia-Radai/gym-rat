@@ -2,17 +2,14 @@ import "./GymRat.css";
 import { useEffect, useState } from "react";
 import deleteIcon from "./resources/deleteIcon.svg";
 import NewTemplateForm from "./components/NewTemplateForm/NewTemplateForm";
+import { Link } from "react-router-dom";
 
-function GymRat() {
+function GymRat({ templates, setTemplates }) {
   const [toggleAddingTemplate, setToggleAddingTemplate] = useState(false);
   const [templateName, setTemplateName] = useState("");
   const [exercises, setExercises] = useState([
     { id: crypto.randomUUID(), name: "", sets: 0, reps: 0 },
   ]);
-  const [templates, setTemplates] = useState(() => {
-    const storedTemplates = JSON.parse(localStorage.getItem("templates"));
-    return storedTemplates || [];
-  });
 
   const [formErrors, setFormErrors] = useState({
     templateName: "",
@@ -34,7 +31,7 @@ function GymRat() {
   useEffect(() => {
     const storedTemplates = JSON.parse(localStorage.getItem("templates")) || [];
     setTemplates(storedTemplates);
-  }, [exercises]);
+  }, [exercises, setTemplates]);
 
   const toggleAddingTemplateForm = () => {
     setToggleAddingTemplate(!toggleAddingTemplate);
@@ -115,7 +112,7 @@ function GymRat() {
   };
 
   return (
-    <div className="app">
+    <div className="page">
       <h2>GymRat</h2>
       <div>
         <div>Templates</div>
@@ -138,15 +135,25 @@ function GymRat() {
         )}
         <div>My templates</div>
         {templates.map((template) => (
-          <div key={template.id} className="template">
-            <h4>{template.name}</h4>
-            <img
-              src={deleteIcon}
-              alt="Delete template"
-              className="delete-icon"
-              onClick={() => deleteTemplate(template.id)}
-            />
-          </div>
+          <Link
+            key={template.id}
+            to={`/template/${template.id}`}
+            className="template-link"
+          >
+            <div className="template">
+              <h4>{template.name}</h4>
+              <img
+                src={deleteIcon}
+                alt="Delete template"
+                className="delete-icon"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  deleteTemplate(template.id);
+                }}
+              />
+            </div>
+          </Link>
         ))}
       </div>
     </div>
