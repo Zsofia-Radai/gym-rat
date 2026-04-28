@@ -1,4 +1,5 @@
 import deleteIcon from "../../resources/deleteIcon.svg";
+import "./NewTemplateForm.css";
 
 function NewTemplateForm({
   handleSaveTemplate,
