@@ -19,7 +19,16 @@ function TemplateDetails({ templates }) {
           <div key={exercise.id} className="exercise">
             <div>{exercise.name}</div>
             <div>
-              {exercise.sets} sets x {exercise.reps} reps
+              <div className="exercise-details-header">
+                <span>Sets</span>
+                <span>Reps</span>
+                <span>Kg</span>
+              </div>
+              <div className="exercise-details">
+                <span>{exercise.sets}</span>
+                <span>{exercise.reps}</span>
+                <span>{exercise.kg}</span>
+              </div>
             </div>
           </div>
         ))}

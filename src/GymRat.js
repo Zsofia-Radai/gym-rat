@@ -8,7 +8,7 @@ function GymRat({ templates, setTemplates }) {
   const [toggleAddingTemplate, setToggleAddingTemplate] = useState(false);
   const [templateName, setTemplateName] = useState("");
   const [exercises, setExercises] = useState([
-    { id: crypto.randomUUID(), name: "", sets: 0, reps: 0 },
+    { id: crypto.randomUUID(), name: "", sets: 0, reps: 0, kg: 0 },
   ]);
 
   const [formErrors, setFormErrors] = useState({
@@ -40,7 +40,7 @@ function GymRat({ templates, setTemplates }) {
   const addExercise = () => {
     setExercises((prev) => [
       ...prev,
-      { id: crypto.randomUUID(), name: "", sets: 0, reps: 0 },
+      { id: crypto.randomUUID(), name: "", sets: 0, reps: 0, kg: 0 },
     ]);
   };
 
@@ -67,12 +67,15 @@ function GymRat({ templates, setTemplates }) {
   const isExerciseInvalid = (ex) => {
     const sets = Number(ex.sets);
     const reps = Number(ex.reps);
+    const kg = Number(ex.kg);
     return (
       !ex.name?.trim() ||
       !Number.isFinite(sets) ||
       !Number.isFinite(reps) ||
+      !Number.isFinite(kg) ||
       sets <= 0 ||
-      reps <= 0
+      reps <= 0 ||
+      kg <= 0
     );
   };
 
@@ -107,7 +110,9 @@ function GymRat({ templates, setTemplates }) {
 
     setTemplates((prev) => [...prev, template]);
     setTemplateName("");
-    setExercises([{ id: crypto.randomUUID(), name: "", sets: 0, reps: 0 }]);
+    setExercises([
+      { id: crypto.randomUUID(), name: "", sets: 0, reps: 0, kg: 0 },
+    ]);
     setToggleAddingTemplate(false);
   };
 

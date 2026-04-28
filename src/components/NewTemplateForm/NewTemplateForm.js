@@ -29,6 +29,13 @@ function NewTemplateForm({
 
         {exercises.map((exercise, index) => (
           <div key={exercise.id} className="exercise-container">
+            <div className="exercise-header">
+              <span></span>
+              <span>Sets</span>
+              <span>Reps</span>
+              <span>Kg</span>
+            </div>
+
             <div className="new-exercise-form">
               <input
                 type="text"
@@ -39,7 +46,9 @@ function NewTemplateForm({
                 placeholder="Exercise name"
               />
               <input
-                type="number"
+                className="numeric-input"
+                type="text"
+                inputMode="numeric"
                 placeholder="Sets"
                 value={exercise.sets}
                 onChange={(e) =>
@@ -47,21 +56,33 @@ function NewTemplateForm({
                 }
               />
               <input
-                type="number"
+                className="numeric-input"
+                type="text"
+                inputMode="numeric"
                 placeholder="Reps"
                 value={exercise.reps}
                 onChange={(e) =>
                   handleFormChange(exercise.id, "reps", e.target.value)
                 }
               />
-            </div>
-            <div>
-              <img
-                className="delete-icon"
-                src={deleteIcon}
-                alt="Delete exercise"
-                onClick={() => deleteExercise(exercise.id)}
+              <input
+                className="numeric-input"
+                type="text"
+                inputMode="numeric"
+                placeholder="kg"
+                value={exercise.kg}
+                onChange={(e) =>
+                  handleFormChange(exercise.id, "kg", e.target.value)
+                }
               />
+              <div>
+                <img
+                  className="delete-icon"
+                  src={deleteIcon}
+                  alt="Delete exercise"
+                  onClick={() => deleteExercise(exercise.id)}
+                />
+              </div>
             </div>
             {formErrors.exercises[index]?.error && (
               <div className="form-error-message">

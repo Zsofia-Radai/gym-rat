@@ -22,22 +22,40 @@
   font-size: 16px;
 }
 
-.exercise-container {
-    display: grid;
-    grid-template-columns: 12fr 1fr;
-    gap: 12px 0 0;
-    justify-content: space-between;
-    align-items: anchor-center;
+.numeric-input {
+    text-align: center;
 }
 
-.new-exercise-form {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+.exercise-container {
   gap: 10px;
   padding: 12px;
   background: #0f172a;
   border-radius: 12px;
   border: 1px solid #334155;
+  margin: 10px;
+}
+
+.exercise-header {
+  display: grid;
+  grid-template-columns: 7fr 3fr 3fr 3fr 1fr;
+  gap: 8px;
+  align-items: center;
+  text-align: center;
+}
+
+.exercise-header span {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #999;
+  font-weight: 500;
+}
+
+.new-exercise-form {
+  display: grid;
+  grid-template-columns: 7fr 3fr 3fr 3fr 1fr;
+  align-items: center;
+  gap: 10px;
 }
 
 .new-exercise-form input {
