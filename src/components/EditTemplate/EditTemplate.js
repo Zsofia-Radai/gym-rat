@@ -1,9 +1,13 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import closeIcon from "../../resources/close.svg";
+import deleteIcon from "../../resources/deleteIcon.svg";
 import "./EditTemplate.css";
 import Button from "../Button/Button";
-import { exerciseFields } from "../../utils/exerciseFields";
+import {
+  createNewExercise,
+  exerciseFields,
+} from "../../utils/templateFormUtils";
 
 function EditTemplate({ templates, setTemplates }) {
   const { id } = useParams();
@@ -35,6 +39,14 @@ function EditTemplate({ templates, setTemplates }) {
     navigate(`/template/${id}`);
   };
 
+  const addExercise = () => {
+    setExercises((prev) => [...prev, createNewExercise()]);
+  };
+
+  const deleteExercise = (id) => {
+    setExercises((prev) => prev.filter((ex) => ex.id !== id));
+  };
+
   return (
     <div className="page">
       <form onSubmit={handleSaveTemplate}>
@@ -46,7 +58,7 @@ function EditTemplate({ templates, setTemplates }) {
             placeholder="Template name"
             className="edit-template-name-input"
           />
-          <Button type="icon" variant={"icon"} onClick={() => navigate(-1)}>
+          <Button type="button" variant={"icon"} onClick={() => navigate(-1)}>
             <img src={closeIcon} alt="Close edit form" />
           </Button>
         </div>
@@ -79,9 +91,20 @@ function EditTemplate({ templates, setTemplates }) {
                   }}
                 />
               ))}
+              <Button
+                type="icon"
+                variant={"icon"}
+                onClick={() => deleteExercise(exercise.id)}
+                aria-label="Delete exercise"
+              >
+                <img src={deleteIcon} alt="Delete exercise" />
+              </Button>
             </div>
           </div>
         ))}
+        <Button type="button" onClick={() => addExercise()}>
+          Add exercise
+        </Button>
         <div className="form-buttons">
           <Button type="button" variant={"cancel"} onClick={() => navigate(-1)}>
             Cancel

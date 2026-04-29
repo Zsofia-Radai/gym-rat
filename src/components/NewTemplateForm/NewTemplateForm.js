@@ -2,7 +2,7 @@ import deleteIcon from "../../resources/deleteIcon.svg";
 import closeIcon from "../../resources/close.svg";
 import "./NewTemplateForm.css";
 import Button from "../Button/Button";
-import { exerciseFields } from "../../utils/exerciseFields";
+import { exerciseFields } from "../../utils/templateFormUtils";
 
 function NewTemplateForm({
   handleSaveTemplate,

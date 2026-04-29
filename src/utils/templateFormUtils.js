@@ -4,3 +4,11 @@ export const exerciseFields = [
   { name: "reps", placeholder: "Reps", type: "text", inputMode: "numeric" },
   { name: "kg", placeholder: "kg", type: "text", inputMode: "numeric" },
 ];
+
+export const createNewExercise = () => ({
+  id: crypto.randomUUID(),
+  name: "",
+  sets: 0,
+  reps: 0,
+  kg: 0,
+});

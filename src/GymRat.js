@@ -5,13 +5,12 @@ import NewTemplateForm from "./components/NewTemplateForm/NewTemplateForm";
 import { Link } from "react-router-dom";
 import Button from "./components/Button/Button";
 import { validateForm } from "./utils/validation";
+import { createNewExercise } from "./utils/templateFormUtils";
 
 function GymRat({ templates, setTemplates }) {
   const [toggleAddingTemplate, setToggleAddingTemplate] = useState(false);
   const [templateName, setTemplateName] = useState("");
-  const [exercises, setExercises] = useState([
-    { id: crypto.randomUUID(), name: "", sets: 0, reps: 0, kg: 0 },
-  ]);
+  const [exercises, setExercises] = useState([createNewExercise()]);
 
   const [formErrors, setFormErrors] = useState({
     templateName: "",
@@ -36,14 +35,12 @@ function GymRat({ templates, setTemplates }) {
   }, [exercises, setTemplates]);
 
   const toggleAddingTemplateForm = () => {
+    setExercises([createNewExercise()]);
     setToggleAddingTemplate(!toggleAddingTemplate);
   };
 
   const addExercise = () => {
-    setExercises((prev) => [
-      ...prev,
-      { id: crypto.randomUUID(), name: "", sets: 0, reps: 0, kg: 0 },
-    ]);
+    setExercises((prev) => [...prev, createNewExercise()]);
   };
 
   const deleteTemplate = (id) => {
@@ -81,9 +78,7 @@ function GymRat({ templates, setTemplates }) {
 
     setTemplates((prev) => [...prev, template]);
     setTemplateName("");
-    setExercises([
-      { id: crypto.randomUUID(), name: "", sets: 0, reps: 0, kg: 0 },
-    ]);
+    setExercises([createNewExercise()]);
     setToggleAddingTemplate(false);
   };
 
