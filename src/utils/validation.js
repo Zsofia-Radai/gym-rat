@@ -14,21 +14,43 @@ const isExerciseInvalid = (ex) => {
 };
 
 export const validateForm = (templateName, exercises, setFormErrors) => {
-  const templateNameError = !templateName.trim();
+  const errors = {
+    templateName: "",
+    exercises: {},
+  };
 
-  const exerciseErrors = exercises.map((ex) => ({
-    ...ex,
-    error: isExerciseInvalid(ex),
-  }));
+  if (!templateName.trim()) {
+    errors.templateName = "Template name is required";
+  }
 
-  const hasExerciseError = exerciseErrors.some((ex) => ex.error);
+  exercises.forEach((ex) => {
+    const exErrors = {};
 
-  const isValid = !templateNameError && !hasExerciseError;
+    if (!ex.name.trim()) {
+      exErrors.name = "Required";
+    }
 
-  setFormErrors({
-    templateName: templateNameError ? "Template name is required" : "",
-    exercises: exerciseErrors,
+    if (!ex.sets || isNaN(ex.sets)) {
+      exErrors.sets = "Invalid";
+    }
+
+    if (!ex.reps || isNaN(ex.reps)) {
+      exErrors.reps = "Invalid";
+    }
+
+    if (!ex.kg || isNaN(ex.kg)) {
+      exErrors.kg = "Invalid";
+    }
+
+    if (Object.keys(exErrors).length > 0) {
+      errors.exercises[ex.id] = exErrors;
+    }
   });
+
+  const isValid =
+    !errors.templateName && Object.keys(errors.exercises).length === 0;
+
+  setFormErrors(errors);
 
   return isValid;
 };

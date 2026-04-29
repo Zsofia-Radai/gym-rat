@@ -1,6 +1,7 @@
 .new-template-form-header {
   display: flex;
   justify-content: space-between;
+  align-items: start;
 }
 
 .new-template-form {
@@ -14,8 +15,65 @@
   gap: 16px;
 }
 
-.template-name {
-  margin: 10px;
+.new-exercise-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.new-exercise-form input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #334155;
+  background: #020617;
+  color: white;
+  font-size: 14px;
+  min-width: 0;
+}
+
+.new-exercise-form input[type="number"] {
+  text-align: center;
+}
+
+.exercise-row {
+  display: grid;
+  grid-template-columns: 7fr 3fr 3fr 3fr 1fr;
+  gap: 8px;
+  align-items: start;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.exercise-row .icon-button {
+  align-self: center;
+}
+
+.exercise-row input {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.cell {
+  display: flex;
+  flex-direction: column;
+  justify-self: flex-start;
+  position: relative;
+}
+
+.form-error-message {
+  height: 14px;
+  font-size: 12px;
+  margin-top: 4px;
+  line-height: 14px;
+  color:#e41f1f;
+}
+
+.delete-cell, .cancel-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
 }
 
 .new-template-form input {
@@ -56,35 +114,8 @@
   font-weight: 500;
 }
 
-.new-exercise-form {
-  display: grid;
-  grid-template-columns: 7fr 3fr 3fr 3fr 1fr;
-  align-items: center;
-  gap: 10px;
-}
-
-.new-exercise-form input {
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #334155;
-  background: #020617;
-  color: white;
-  font-size: 14px;
-  min-width: 0;
-}
-
-.new-exercise-form input[type="number"] {
-  text-align: center;
-}
-
 .form-buttons {
   margin: 15px 0;
   display: flex;
   justify-content: space-between;
-}
-
-.form-error-message {
-  margin: 0 10px 10px;
-  color: #ef4444;
-  font-size: 14px;
 }

@@ -14,7 +14,7 @@ function GymRat({ templates, setTemplates }) {
 
   const [formErrors, setFormErrors] = useState({
     templateName: "",
-    exercises: [],
+    exercises: {},
   });
 
   useEffect(() => {
@@ -36,6 +36,11 @@ function GymRat({ templates, setTemplates }) {
 
   const toggleAddingTemplateForm = () => {
     setExercises([createNewExercise()]);
+    setTemplateName("");
+    setFormErrors({
+      templateName: "",
+      exercises: {},
+    });
     setToggleAddingTemplate(!toggleAddingTemplate);
   };
 
@@ -55,15 +60,30 @@ function GymRat({ templates, setTemplates }) {
     setExercises((prev) => prev.filter((ex) => ex.id !== id));
   };
 
-  const handleFormChange = (id, field, value) => {
+  const handleTemplateNameChange = (e) => {
+    setTemplateName(e.target.value);
+    setFormErrors((prev) => ({
+      ...prev,
+      templateName: "",
+    }));
+  };
+
+  const handleExerciseFieldsChange = (id, field, value) => {
     setExercises((prev) =>
       prev.map((exercise) =>
         exercise.id === id ? { ...exercise, [field]: value } : exercise,
       ),
     );
+
     setFormErrors((prev) => ({
       ...prev,
-      [field]: "",
+      exercises: {
+        ...prev.exercises,
+        [id]: {
+          ...(prev.exercises[id] || {}),
+          [field]: "",
+        },
+      },
     }));
   };
 
@@ -98,7 +118,8 @@ function GymRat({ templates, setTemplates }) {
             formErrors={formErrors}
             templateName={templateName}
             exercises={exercises}
-            handleFormChange={handleFormChange}
+            handleExerciseFieldsChange={handleExerciseFieldsChange}
+            handleTemplateNameChange={handleTemplateNameChange}
             deleteExercise={deleteExercise}
             addExercise={addExercise}
             setTemplateName={setTemplateName}
