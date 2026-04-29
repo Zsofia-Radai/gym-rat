@@ -1,5 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import closeIcon from "../../resources/close.svg";
 import "./EditTemplate.css";
 
 function EditTemplate({ templates, setTemplates }) {
@@ -22,6 +23,7 @@ function EditTemplate({ templates, setTemplates }) {
   const handleSaveTemplate = (e) => {
     e.preventDefault();
 
+    setName(template.name);
     setTemplates((prev) =>
       prev.map((t) => {
         console.log(id);
@@ -34,9 +36,19 @@ function EditTemplate({ templates, setTemplates }) {
 
   return (
     <div className="page">
-      <h2>Edit Template: {name}</h2>
-
       <form onSubmit={handleSaveTemplate}>
+        <div className="edit-template-header">
+          <input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            name="templateName"
+            placeholder="Template name"
+            className="edit-template-name-input"
+          />
+          <button className="close-button" onClick={() => navigate(-1)}>
+            <img src={closeIcon} alt="Close edit form" />
+          </button>
+        </div>
         {exercises.map((exercise, index) => (
           <div className="exercise-container">
             <div className="edit-exercise-details-header">
@@ -93,7 +105,11 @@ function EditTemplate({ templates, setTemplates }) {
           </div>
         ))}
         <div className="form-buttons">
-          <button type="button" onClick={() => navigate(-1)}>
+          <button
+            type="button"
+            className="cancel-button"
+            onClick={() => navigate(-1)}
+          >
             Cancel
           </button>
           <button type="submit">Save changes</button>

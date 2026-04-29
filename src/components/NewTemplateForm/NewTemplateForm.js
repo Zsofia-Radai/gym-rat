@@ -1,4 +1,5 @@
 import deleteIcon from "../../resources/deleteIcon.svg";
+import closeIcon from "../../resources/close.svg";
 import "./NewTemplateForm.css";
 
 function NewTemplateForm({
@@ -11,20 +12,33 @@ function NewTemplateForm({
   deleteExercise,
   addExercise,
   setTemplateName,
+  toggleAddingTemplateForm,
 }) {
   return (
     <div className="new-template-form">
       <form onSubmit={handleSaveTemplate}>
-        <div className="template-name">
-          <input
-            value={templateName}
-            onChange={(e) => setTemplateName(e.target.value)}
-            name="templateName"
-            placeholder="Template name"
-          />
-          {formErrors.templateName && (
-            <div className="form-error-message">{formErrors.templateName}</div>
-          )}
+        <div className="new-template-form-header">
+          <div className="template-name">
+            <input
+              value={templateName}
+              onChange={(e) => setTemplateName(e.target.value)}
+              name="templateName"
+              placeholder="Template name"
+            />
+            {formErrors.templateName && (
+              <div className="form-error-message">
+                {formErrors.templateName}
+              </div>
+            )}
+          </div>
+
+          <button
+            type="button"
+            className="icon-button"
+            onClick={toggleAddingTemplateForm}
+          >
+            <img src={closeIcon} alt="Close template form" />
+          </button>
         </div>
 
         {exercises.map((exercise, index) => (

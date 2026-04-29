@@ -136,6 +136,7 @@ function GymRat({ templates, setTemplates }) {
             deleteExercise={deleteExercise}
             addExercise={addExercise}
             setTemplateName={setTemplateName}
+            toggleAddingTemplateForm={toggleAddingTemplateForm}
           />
         )}
         <div>My templates</div>

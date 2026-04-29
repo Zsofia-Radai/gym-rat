@@ -1,3 +1,8 @@
+.new-template-form-header {
+  display: flex;
+  justify-content: space-between;
+}
+
 .new-template-form {
   margin: 40px auto;
   padding: 24px;
@@ -10,7 +15,7 @@
 }
 
 .template-name {
-  margin: 10px 0;
+  margin: 10px;
 }
 
 .new-template-form input {
