@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import deleteIcon from "./resources/deleteIcon.svg";
 import NewTemplateForm from "./components/NewTemplateForm/NewTemplateForm";
 import { Link } from "react-router-dom";
+import Button from "./components/Button/Button";
 
 function GymRat({ templates, setTemplates }) {
   const [toggleAddingTemplate, setToggleAddingTemplate] = useState(false);
@@ -120,11 +121,11 @@ function GymRat({ templates, setTemplates }) {
     <div className="page">
       <h2>GymRat</h2>
       <div>
-        <div>Templates</div>
+        <div className="templates">Templates</div>
         <hr></hr>
-        <button className="new-template-btn" onClick={toggleAddingTemplateForm}>
+        <Button type="button" onClick={toggleAddingTemplateForm}>
           New Template
-        </button>
+        </Button>
         {toggleAddingTemplate && (
           <NewTemplateForm
             handleSaveTemplate={handleSaveTemplate}
@@ -139,7 +140,7 @@ function GymRat({ templates, setTemplates }) {
             toggleAddingTemplateForm={toggleAddingTemplateForm}
           />
         )}
-        <div>My templates</div>
+        <div className="templates">My templates</div>
         {templates.map((template) => (
           <Link
             key={template.id}
@@ -148,8 +149,9 @@ function GymRat({ templates, setTemplates }) {
           >
             <div className="template">
               <h4>{template.name}</h4>
-              <button
-                className="delete-icon"
+              <Button
+                type="icon"
+                variant="icon"
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
@@ -157,7 +159,7 @@ function GymRat({ templates, setTemplates }) {
                 }}
               >
                 <img src={deleteIcon} alt="Delete template" />
-              </button>
+              </Button>
             </div>
           </Link>
         ))}

@@ -1,6 +1,7 @@
 import deleteIcon from "../../resources/deleteIcon.svg";
 import closeIcon from "../../resources/close.svg";
 import "./NewTemplateForm.css";
+import Button from "../Button/Button";
 
 function NewTemplateForm({
   handleSaveTemplate,
@@ -32,13 +33,13 @@ function NewTemplateForm({
             )}
           </div>
 
-          <button
-            type="button"
-            className="icon-button"
+          <Button
+            type="icon"
+            variant={"icon"}
             onClick={toggleAddingTemplateForm}
           >
             <img src={closeIcon} alt="Close template form" />
-          </button>
+          </Button>
         </div>
 
         {exercises.map((exercise, index) => (
@@ -89,13 +90,15 @@ function NewTemplateForm({
                   handleFormChange(exercise.id, "kg", e.target.value)
                 }
               />
-              <button
-                className="icon-button delete-icon"
+
+              <Button
+                type="icon"
+                variant={"icon"}
                 onClick={() => deleteExercise(exercise.id)}
                 aria-label="Delete exercise"
               >
                 <img src={deleteIcon} alt="Delete exercise" />
-              </button>
+              </Button>
             </div>
             {formErrors.exercises[index]?.error && (
               <div className="form-error-message">
@@ -106,11 +109,13 @@ function NewTemplateForm({
         ))}
 
         <div className="form-buttons">
-          <button type="button" onClick={addExercise}>
+          <Button type="button" onClick={addExercise}>
             Add exercise
-          </button>
+          </Button>
 
-          <button type="submit">Save Template</button>
+          <Button type="submit" variant={"submit"}>
+            Save Template
+          </Button>
         </div>
       </form>
     </div>

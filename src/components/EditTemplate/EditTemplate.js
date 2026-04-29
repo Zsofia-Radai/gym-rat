@@ -2,6 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import closeIcon from "../../resources/close.svg";
 import "./EditTemplate.css";
+import Button from "../Button/Button";
 
 function EditTemplate({ templates, setTemplates }) {
   const { id } = useParams();
@@ -45,9 +46,9 @@ function EditTemplate({ templates, setTemplates }) {
             placeholder="Template name"
             className="edit-template-name-input"
           />
-          <button className="close-button" onClick={() => navigate(-1)}>
+          <Button type="icon" variant={"icon"} onClick={() => navigate(-1)}>
             <img src={closeIcon} alt="Close edit form" />
-          </button>
+          </Button>
         </div>
         {exercises.map((exercise, index) => (
           <div className="exercise-container">
@@ -105,14 +106,12 @@ function EditTemplate({ templates, setTemplates }) {
           </div>
         ))}
         <div className="form-buttons">
-          <button
-            type="button"
-            className="cancel-button"
-            onClick={() => navigate(-1)}
-          >
+          <Button type="button" variant={"cancel"} onClick={() => navigate(-1)}>
             Cancel
-          </button>
-          <button type="submit">Save changes</button>
+          </Button>
+          <Button type="submit" variant={"submit"}>
+            Save changes
+          </Button>
         </div>
       </form>
     </div>
