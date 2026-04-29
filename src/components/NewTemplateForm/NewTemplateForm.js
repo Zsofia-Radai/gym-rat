@@ -2,6 +2,7 @@ import deleteIcon from "../../resources/deleteIcon.svg";
 import closeIcon from "../../resources/close.svg";
 import "./NewTemplateForm.css";
 import Button from "../Button/Button";
+import { exerciseFields } from "../../utils/exerciseFields";
 
 function NewTemplateForm({
   handleSaveTemplate,
@@ -52,44 +53,21 @@ function NewTemplateForm({
             </div>
 
             <div className="new-exercise-form">
-              <input
-                type="text"
-                value={exercise.name}
-                onChange={(e) =>
-                  handleFormChange(exercise.id, "name", e.target.value)
-                }
-                placeholder="Exercise name"
-              />
-              <input
-                className="numeric-input"
-                type="text"
-                inputMode="numeric"
-                placeholder="Sets"
-                value={exercise.sets}
-                onChange={(e) =>
-                  handleFormChange(exercise.id, "sets", e.target.value)
-                }
-              />
-              <input
-                className="numeric-input"
-                type="text"
-                inputMode="numeric"
-                placeholder="Reps"
-                value={exercise.reps}
-                onChange={(e) =>
-                  handleFormChange(exercise.id, "reps", e.target.value)
-                }
-              />
-              <input
-                className="numeric-input"
-                type="text"
-                inputMode="numeric"
-                placeholder="kg"
-                value={exercise.kg}
-                onChange={(e) =>
-                  handleFormChange(exercise.id, "kg", e.target.value)
-                }
-              />
+              {exerciseFields.map((field) => (
+                <input
+                  key={field.name}
+                  type="text"
+                  inputMode={field.inputMode}
+                  className={
+                    field.inputMode === "numeric" ? "numeric-input" : ""
+                  }
+                  value={exercise[field.name]}
+                  placeholder={field.placeholder}
+                  onChange={(e) =>
+                    handleFormChange(exercise.id, field.name, e.target.value)
+                  }
+                />
+              ))}
 
               <Button
                 type="icon"

@@ -4,6 +4,7 @@ import deleteIcon from "./resources/deleteIcon.svg";
 import NewTemplateForm from "./components/NewTemplateForm/NewTemplateForm";
 import { Link } from "react-router-dom";
 import Button from "./components/Button/Button";
+import { validateForm } from "./utils/validation";
 
 function GymRat({ templates, setTemplates }) {
   const [toggleAddingTemplate, setToggleAddingTemplate] = useState(false);
@@ -63,47 +64,16 @@ function GymRat({ templates, setTemplates }) {
         exercise.id === id ? { ...exercise, [field]: value } : exercise,
       ),
     );
-  };
-
-  const isExerciseInvalid = (ex) => {
-    const sets = Number(ex.sets);
-    const reps = Number(ex.reps);
-    const kg = Number(ex.kg);
-    return (
-      !ex.name?.trim() ||
-      !Number.isFinite(sets) ||
-      !Number.isFinite(reps) ||
-      !Number.isFinite(kg) ||
-      sets <= 0 ||
-      reps <= 0 ||
-      kg <= 0
-    );
-  };
-
-  const validateForm = () => {
-    const templateNameError = !templateName.trim();
-
-    const exerciseErrors = exercises.map((ex) => ({
-      ...ex,
-      error: isExerciseInvalid(ex),
+    setFormErrors((prev) => ({
+      ...prev,
+      [field]: "",
     }));
-
-    const hasExerciseError = exerciseErrors.some((ex) => ex.error);
-
-    const isValid = !templateNameError && !hasExerciseError;
-
-    setFormErrors({
-      templateName: templateNameError ? "Template name is required" : "",
-      exercises: exerciseErrors,
-    });
-
-    return isValid;
   };
 
   const handleSaveTemplate = (e) => {
     e.preventDefault();
 
-    const isValid = validateForm();
+    const isValid = validateForm(templateName, exercises, setFormErrors);
 
     if (!isValid) return;
 

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import closeIcon from "../../resources/close.svg";
 import "./EditTemplate.css";
 import Button from "../Button/Button";
+import { exerciseFields } from "../../utils/exerciseFields";
 
 function EditTemplate({ templates, setTemplates }) {
   const { id } = useParams();
@@ -27,7 +28,6 @@ function EditTemplate({ templates, setTemplates }) {
     setName(template.name);
     setTemplates((prev) =>
       prev.map((t) => {
-        console.log(id);
         return t.id === id ? { ...t, name, exercises } : t;
       }),
     );
@@ -51,7 +51,7 @@ function EditTemplate({ templates, setTemplates }) {
           </Button>
         </div>
         {exercises.map((exercise, index) => (
-          <div className="exercise-container">
+          <div key={exercise.id} className="exercise-container">
             <div className="edit-exercise-details-header">
               <span></span>
               <span>Sets</span>
@@ -59,49 +59,26 @@ function EditTemplate({ templates, setTemplates }) {
               <span>Kg</span>
             </div>
 
-            <div key={exercise.id} className="edit-exercise-form">
-              <input
-                type="text"
-                value={exercise.name}
-                onChange={(e) => {
-                  const updated = [...exercises];
-                  updated[index].name = e.target.value;
-                  setExercises(updated);
-                }}
-              />
-              <input
-                className="numeric-input"
-                type="text"
-                inputMode="numeric"
-                value={exercise.sets}
-                onChange={(e) => {
-                  const updated = [...exercises];
-                  updated[index].sets = e.target.value;
-                  setExercises(updated);
-                }}
-              />
-              <input
-                className="numeric-input"
-                type="text"
-                inputMode="numeric"
-                value={exercise.reps}
-                onChange={(e) => {
-                  const updated = [...exercises];
-                  updated[index].reps = e.target.value;
-                  setExercises(updated);
-                }}
-              />
-              <input
-                className="numeric-input"
-                type="text"
-                inputMode="numeric"
-                value={exercise.kg}
-                onChange={(e) => {
-                  const updated = [...exercises];
-                  updated[index].kg = e.target.value;
-                  setExercises(updated);
-                }}
-              />
+            <div className="edit-exercise-form">
+              {exerciseFields.map((field) => (
+                <input
+                  key={field.name}
+                  type={field.type}
+                  placeholder={field.placeholder}
+                  value={exercise[field.name]}
+                  className={
+                    field.inputMode === "numeric" ? "numeric-input" : ""
+                  }
+                  onChange={(e) => {
+                    const updated = [...exercises];
+                    updated[index] = {
+                      ...updated[index],
+                      [field.name]: e.target.value,
+                    };
+                    setExercises(updated);
+                  }}
+                />
+              ))}
             </div>
           </div>
         ))}
