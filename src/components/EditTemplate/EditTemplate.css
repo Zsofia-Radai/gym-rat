@@ -1,0 +1,84 @@
+.edit-template-header {
+  display: flex;
+  align-items: normal;
+  gap: 10px;
+  padding: 10px 15px;
+  justify-content: space-between;
+}
+
+.edit-exercise-details-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  text-align: center;
+  gap: 10px;
+}
+
+.edit-exercise-details-header span {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #999;
+  font-weight: 500;
+}
+
+.edit-exercise-form {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  align-items: center;
+  gap: 10px;
+}
+
+.edit-exercise-form input, .edit-template-name-input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #334155;
+  background: #020617;
+  color: white;
+  font-size: 14px;
+  min-width: 0;
+}
+
+.edit-exercise-form input[type="number"] {
+  text-align: center;
+}
+
+.cancel-button {
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+  background: #334155;
+  color: #e2e8f0;
+}
+
+.cancel-button:hover {
+  background: #475569;
+}
+
+button[type="submit"] {
+  background: #22c55e;
+  color: #022c22;
+}
+
+button[type="submit"]:hover {
+  background: #16a34a;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  height: 20px;
+}
+
+.close-button img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.close-button:hover {
+  opacity: 0.7;
+}

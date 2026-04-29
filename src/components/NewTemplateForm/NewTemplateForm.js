@@ -1,4 +1,6 @@
 import deleteIcon from "../../resources/deleteIcon.svg";
+import closeIcon from "../../resources/close.svg";
+import "./NewTemplateForm.css";
 
 function NewTemplateForm({
   handleSaveTemplate,
@@ -10,24 +12,44 @@ function NewTemplateForm({
   deleteExercise,
   addExercise,
   setTemplateName,
+  toggleAddingTemplateForm,
 }) {
   return (
     <div className="new-template-form">
       <form onSubmit={handleSaveTemplate}>
-        <div className="template-name">
-          <input
-            value={templateName}
-            onChange={(e) => setTemplateName(e.target.value)}
-            name="templateName"
-            placeholder="Template name"
-          />
-          {formErrors.templateName && (
-            <div className="form-error-message">{formErrors.templateName}</div>
-          )}
+        <div className="new-template-form-header">
+          <div className="template-name">
+            <input
+              value={templateName}
+              onChange={(e) => setTemplateName(e.target.value)}
+              name="templateName"
+              placeholder="Template name"
+            />
+            {formErrors.templateName && (
+              <div className="form-error-message">
+                {formErrors.templateName}
+              </div>
+            )}
+          </div>
+
+          <button
+            type="button"
+            className="icon-button"
+            onClick={toggleAddingTemplateForm}
+          >
+            <img src={closeIcon} alt="Close template form" />
+          </button>
         </div>
 
         {exercises.map((exercise, index) => (
           <div key={exercise.id} className="exercise-container">
+            <div className="exercise-header">
+              <span></span>
+              <span>Sets</span>
+              <span>Reps</span>
+              <span>Kg</span>
+            </div>
+
             <div className="new-exercise-form">
               <input
                 type="text"
@@ -38,7 +60,9 @@ function NewTemplateForm({
                 placeholder="Exercise name"
               />
               <input
-                type="number"
+                className="numeric-input"
+                type="text"
+                inputMode="numeric"
                 placeholder="Sets"
                 value={exercise.sets}
                 onChange={(e) =>
@@ -46,21 +70,32 @@ function NewTemplateForm({
                 }
               />
               <input
-                type="number"
+                className="numeric-input"
+                type="text"
+                inputMode="numeric"
                 placeholder="Reps"
                 value={exercise.reps}
                 onChange={(e) =>
                   handleFormChange(exercise.id, "reps", e.target.value)
                 }
               />
-            </div>
-            <div>
-              <img
-                className="delete-icon"
-                src={deleteIcon}
-                alt="Delete exercise"
-                onClick={() => deleteExercise(exercise.id)}
+              <input
+                className="numeric-input"
+                type="text"
+                inputMode="numeric"
+                placeholder="kg"
+                value={exercise.kg}
+                onChange={(e) =>
+                  handleFormChange(exercise.id, "kg", e.target.value)
+                }
               />
+              <button
+                className="icon-button delete-icon"
+                onClick={() => deleteExercise(exercise.id)}
+                aria-label="Delete exercise"
+              >
+                <img src={deleteIcon} alt="Delete exercise" />
+              </button>
             </div>
             {formErrors.exercises[index]?.error && (
               <div className="form-error-message">
