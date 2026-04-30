@@ -3,18 +3,24 @@ import { useEffect, useState } from "react";
 import deleteIcon from "./resources/deleteIcon.svg";
 import NewTemplateForm from "./components/NewTemplateForm/NewTemplateForm";
 import { Link } from "react-router-dom";
+import Button from "./components/Button/Button";
+import { validateForm } from "./utils/validation";
+import { createNewExercise } from "./utils/templateFormUtils";
+import { useExercises } from "./hooks/useExercises";
 
 function GymRat({ templates, setTemplates }) {
   const [toggleAddingTemplate, setToggleAddingTemplate] = useState(false);
   const [templateName, setTemplateName] = useState("");
-  const [exercises, setExercises] = useState([
-    { id: crypto.randomUUID(), name: "", sets: 0, reps: 0, kg: 0 },
-  ]);
 
-  const [formErrors, setFormErrors] = useState({
-    templateName: "",
-    exercises: [],
-  });
+  const {
+    exercises,
+    setExercises,
+    addExercise,
+    deleteExercise,
+    formErrors,
+    setFormErrors,
+    handleExerciseFieldsChange,
+  } = useExercises([createNewExercise()]);
 
   useEffect(() => {
     localStorage.setItem("templates", JSON.stringify(templates));
@@ -34,14 +40,13 @@ function GymRat({ templates, setTemplates }) {
   }, [exercises, setTemplates]);
 
   const toggleAddingTemplateForm = () => {
+    setExercises([createNewExercise()]);
+    setTemplateName("");
+    setFormErrors({
+      templateName: "",
+      exercises: {},
+    });
     setToggleAddingTemplate(!toggleAddingTemplate);
-  };
-
-  const addExercise = () => {
-    setExercises((prev) => [
-      ...prev,
-      { id: crypto.randomUUID(), name: "", sets: 0, reps: 0, kg: 0 },
-    ]);
   };
 
   const deleteTemplate = (id) => {
@@ -52,57 +57,18 @@ function GymRat({ templates, setTemplates }) {
     });
   };
 
-  const deleteExercise = (id) => {
-    setExercises((prev) => prev.filter((ex) => ex.id !== id));
-  };
-
-  const handleFormChange = (id, field, value) => {
-    setExercises((prev) =>
-      prev.map((exercise) =>
-        exercise.id === id ? { ...exercise, [field]: value } : exercise,
-      ),
-    );
-  };
-
-  const isExerciseInvalid = (ex) => {
-    const sets = Number(ex.sets);
-    const reps = Number(ex.reps);
-    const kg = Number(ex.kg);
-    return (
-      !ex.name?.trim() ||
-      !Number.isFinite(sets) ||
-      !Number.isFinite(reps) ||
-      !Number.isFinite(kg) ||
-      sets <= 0 ||
-      reps <= 0 ||
-      kg <= 0
-    );
-  };
-
-  const validateForm = () => {
-    const templateNameError = !templateName.trim();
-
-    const exerciseErrors = exercises.map((ex) => ({
-      ...ex,
-      error: isExerciseInvalid(ex),
+  const handleTemplateNameChange = (e) => {
+    setTemplateName(e.target.value);
+    setFormErrors((prev) => ({
+      ...prev,
+      templateName: "",
     }));
-
-    const hasExerciseError = exerciseErrors.some((ex) => ex.error);
-
-    const isValid = !templateNameError && !hasExerciseError;
-
-    setFormErrors({
-      templateName: templateNameError ? "Template name is required" : "",
-      exercises: exerciseErrors,
-    });
-
-    return isValid;
   };
 
   const handleSaveTemplate = (e) => {
     e.preventDefault();
 
-    const isValid = validateForm();
+    const isValid = validateForm(templateName, exercises, setFormErrors);
 
     if (!isValid) return;
 
@@ -110,9 +76,7 @@ function GymRat({ templates, setTemplates }) {
 
     setTemplates((prev) => [...prev, template]);
     setTemplateName("");
-    setExercises([
-      { id: crypto.randomUUID(), name: "", sets: 0, reps: 0, kg: 0 },
-    ]);
+    setExercises([createNewExercise()]);
     setToggleAddingTemplate(false);
   };
 
@@ -120,26 +84,26 @@ function GymRat({ templates, setTemplates }) {
     <div className="page">
       <h2>GymRat</h2>
       <div>
-        <div>Templates</div>
+        <div className="templates">Templates</div>
         <hr></hr>
-        <button className="new-template-btn" onClick={toggleAddingTemplateForm}>
+        <Button type="button" onClick={toggleAddingTemplateForm}>
           New Template
-        </button>
+        </Button>
         {toggleAddingTemplate && (
           <NewTemplateForm
-            handleSaveTemplate={handleSaveTemplate}
-            setTemplates={setTemplates}
+            onSubmit={handleSaveTemplate}
+            onCancel={toggleAddingTemplateForm}
             formErrors={formErrors}
             templateName={templateName}
             exercises={exercises}
-            handleFormChange={handleFormChange}
-            deleteExercise={deleteExercise}
-            addExercise={addExercise}
+            onExerciseFieldChange={handleExerciseFieldsChange}
+            onTemplateNameChange={handleTemplateNameChange}
+            onDeleteExercise={deleteExercise}
+            onAddExercise={addExercise}
             setTemplateName={setTemplateName}
-            toggleAddingTemplateForm={toggleAddingTemplateForm}
           />
         )}
-        <div>My templates</div>
+        <div className="templates">My templates</div>
         {templates.map((template) => (
           <Link
             key={template.id}
@@ -148,8 +112,9 @@ function GymRat({ templates, setTemplates }) {
           >
             <div className="template">
               <h4>{template.name}</h4>
-              <button
-                className="delete-icon"
+              <Button
+                type="icon"
+                variant="icon"
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
@@ -157,7 +122,7 @@ function GymRat({ templates, setTemplates }) {
                 }}
               >
                 <img src={deleteIcon} alt="Delete template" />
-              </button>
+              </Button>
             </div>
           </Link>
         ))}

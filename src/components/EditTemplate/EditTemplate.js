@@ -1,7 +1,8 @@
-import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import closeIcon from "../../resources/close.svg";
-import "./EditTemplate.css";
+import { useNavigate, useParams } from "react-router-dom";
+import { useExercises } from "../../hooks/useExercises";
+import { validateForm } from "../../utils/validation";
+import TemplateForm from "../TemplateForm/TemplateForm";
 
 function EditTemplate({ templates, setTemplates }) {
   const { id } = useParams();
@@ -9,24 +10,36 @@ function EditTemplate({ templates, setTemplates }) {
   const template = templates.find((t) => t.id === id);
 
   const [name, setName] = useState("");
-  const [exercises, setExercises] = useState([]);
+
+  const {
+    exercises,
+    setExercises,
+    addExercise,
+    deleteExercise,
+    formErrors,
+    setFormErrors,
+    handleExerciseFieldsChange,
+  } = useExercises(template.exercises);
 
   useEffect(() => {
     if (template) {
       setName(template.name);
       setExercises(template.exercises);
     }
-  }, [template]);
+  }, [template, setExercises]);
 
   if (!template) return <div>Template not found</div>;
 
   const handleSaveTemplate = (e) => {
     e.preventDefault();
 
+    const isValid = validateForm(name, exercises, setFormErrors);
+
+    if (!isValid) return;
+
     setName(template.name);
     setTemplates((prev) =>
       prev.map((t) => {
-        console.log(id);
         return t.id === id ? { ...t, name, exercises } : t;
       }),
     );
@@ -34,87 +47,32 @@ function EditTemplate({ templates, setTemplates }) {
     navigate(`/template/${id}`);
   };
 
+  const cancelEdit = () => {
+    navigate(-1);
+  };
+
+  const handleTemplateNameChange = (e) => {
+    setName(e.target.value);
+    setFormErrors((prev) => ({
+      ...prev,
+      templateName: "",
+    }));
+  };
+
   return (
     <div className="page">
-      <form onSubmit={handleSaveTemplate}>
-        <div className="edit-template-header">
-          <input
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            name="templateName"
-            placeholder="Template name"
-            className="edit-template-name-input"
-          />
-          <button className="close-button" onClick={() => navigate(-1)}>
-            <img src={closeIcon} alt="Close edit form" />
-          </button>
-        </div>
-        {exercises.map((exercise, index) => (
-          <div className="exercise-container">
-            <div className="edit-exercise-details-header">
-              <span></span>
-              <span>Sets</span>
-              <span>Reps</span>
-              <span>Kg</span>
-            </div>
-
-            <div key={exercise.id} className="edit-exercise-form">
-              <input
-                type="text"
-                value={exercise.name}
-                onChange={(e) => {
-                  const updated = [...exercises];
-                  updated[index].name = e.target.value;
-                  setExercises(updated);
-                }}
-              />
-              <input
-                className="numeric-input"
-                type="text"
-                inputMode="numeric"
-                value={exercise.sets}
-                onChange={(e) => {
-                  const updated = [...exercises];
-                  updated[index].sets = e.target.value;
-                  setExercises(updated);
-                }}
-              />
-              <input
-                className="numeric-input"
-                type="text"
-                inputMode="numeric"
-                value={exercise.reps}
-                onChange={(e) => {
-                  const updated = [...exercises];
-                  updated[index].reps = e.target.value;
-                  setExercises(updated);
-                }}
-              />
-              <input
-                className="numeric-input"
-                type="text"
-                inputMode="numeric"
-                value={exercise.kg}
-                onChange={(e) => {
-                  const updated = [...exercises];
-                  updated[index].kg = e.target.value;
-                  setExercises(updated);
-                }}
-              />
-            </div>
-          </div>
-        ))}
-        <div className="form-buttons">
-          <button
-            type="button"
-            className="cancel-button"
-            onClick={() => navigate(-1)}
-          >
-            Cancel
-          </button>
-          <button type="submit">Save changes</button>
-        </div>
-      </form>
+      <TemplateForm
+        onSubmit={handleSaveTemplate}
+        onCancel={cancelEdit}
+        formErrors={formErrors}
+        templateName={name}
+        exercises={exercises}
+        onExerciseFieldChange={handleExerciseFieldsChange}
+        onTemplateNameChange={handleTemplateNameChange}
+        onDeleteExercise={deleteExercise}
+        onAddExercise={addExercise}
+        setTemplateName={setName}
+      />
     </div>
   );
 }
