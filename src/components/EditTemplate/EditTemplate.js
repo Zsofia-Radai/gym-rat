@@ -3,7 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useExercises } from "../../hooks/useExercises";
 import { validateForm } from "../../utils/validation";
 import TemplateForm from "../TemplateForm/TemplateForm";
-import "./EditTemplate.css";
 
 function EditTemplate({ templates, setTemplates }) {
   const { id } = useParams();
