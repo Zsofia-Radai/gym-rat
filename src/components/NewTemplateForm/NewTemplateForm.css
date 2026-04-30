@@ -57,8 +57,6 @@
 .cell {
   display: flex;
   flex-direction: column;
-  justify-self: flex-start;
-  position: relative;
 }
 
 .form-error-message {

@@ -68,10 +68,13 @@ function GymRat({ templates, setTemplates }) {
     }));
   };
 
+  const cleanValue = (value) => value.replace(/^0+(\d)/, "$1");
+
   const handleExerciseFieldsChange = (id, field, value) => {
+    const cleanedValue = cleanValue(value);
     setExercises((prev) =>
       prev.map((exercise) =>
-        exercise.id === id ? { ...exercise, [field]: value } : exercise,
+        exercise.id === id ? { ...exercise, [field]: cleanedValue } : exercise,
       ),
     );
 
@@ -113,17 +116,16 @@ function GymRat({ templates, setTemplates }) {
         </Button>
         {toggleAddingTemplate && (
           <NewTemplateForm
-            handleSaveTemplate={handleSaveTemplate}
-            setTemplates={setTemplates}
+            onSubmit={handleSaveTemplate}
+            onCancel={toggleAddingTemplateForm}
             formErrors={formErrors}
             templateName={templateName}
             exercises={exercises}
-            handleExerciseFieldsChange={handleExerciseFieldsChange}
-            handleTemplateNameChange={handleTemplateNameChange}
-            deleteExercise={deleteExercise}
-            addExercise={addExercise}
+            onExerciseFieldChange={handleExerciseFieldsChange}
+            onTemplateNameChange={handleTemplateNameChange}
+            onDeleteExercise={deleteExercise}
+            onAddExercise={addExercise}
             setTemplateName={setTemplateName}
-            toggleAddingTemplateForm={toggleAddingTemplateForm}
           />
         )}
         <div className="templates">My templates</div>

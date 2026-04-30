@@ -1,16 +1,10 @@
-const isExerciseInvalid = (ex) => {
-  const sets = Number(ex.sets);
-  const reps = Number(ex.reps);
-  const kg = Number(ex.kg);
-  return (
-    !ex.name?.trim() ||
-    !Number.isFinite(sets) ||
-    !Number.isFinite(reps) ||
-    !Number.isFinite(kg) ||
-    sets <= 0 ||
-    reps <= 0 ||
-    kg <= 0
-  );
+const isValidNumber = (value) => {
+  return /^[1-9]\d*$/.test(value);
+};
+
+const isValidKg = (value) => {
+  const str = String(value).trim();
+  return /^(0|[1-9]\d*)$/.test(str);
 };
 
 export const validateForm = (templateName, exercises, setFormErrors) => {
@@ -30,15 +24,15 @@ export const validateForm = (templateName, exercises, setFormErrors) => {
       exErrors.name = "Required";
     }
 
-    if (!ex.sets || isNaN(ex.sets)) {
+    if (!ex.sets || !isValidNumber(ex.sets)) {
       exErrors.sets = "Invalid";
     }
 
-    if (!ex.reps || isNaN(ex.reps)) {
+    if (!ex.reps || !isValidNumber(ex.reps)) {
       exErrors.reps = "Invalid";
     }
 
-    if (!ex.kg || isNaN(ex.kg)) {
+    if (!ex.kg || !isValidKg(ex.kg)) {
       exErrors.kg = "Invalid";
     }
 
