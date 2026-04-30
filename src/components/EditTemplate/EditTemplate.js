@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { createNewExercise } from "../../utils/templateFormUtils";
+import { useExercises } from "../../hooks/useExercises";
 import { validateForm } from "../../utils/validation";
 import TemplateForm from "../TemplateForm/TemplateForm";
 import "./EditTemplate.css";
@@ -11,19 +11,23 @@ function EditTemplate({ templates, setTemplates }) {
   const template = templates.find((t) => t.id === id);
 
   const [name, setName] = useState("");
-  const [exercises, setExercises] = useState([]);
 
-  const [formErrors, setFormErrors] = useState({
-    templateName: "",
-    exercises: {},
-  });
+  const {
+    exercises,
+    setExercises,
+    addExercise,
+    deleteExercise,
+    formErrors,
+    setFormErrors,
+    handleExerciseFieldsChange,
+  } = useExercises(template.exercises);
 
   useEffect(() => {
     if (template) {
       setName(template.name);
       setExercises(template.exercises);
     }
-  }, [template]);
+  }, [template, setExercises]);
 
   if (!template) return <div>Template not found</div>;
 
@@ -44,35 +48,8 @@ function EditTemplate({ templates, setTemplates }) {
     navigate(`/template/${id}`);
   };
 
-  const addExercise = () => {
-    setExercises((prev) => [...prev, createNewExercise()]);
-  };
-
-  const deleteExercise = (id) => {
-    setExercises((prev) => prev.filter((ex) => ex.id !== id));
-  };
-
   const cancelEdit = () => {
     navigate(-1);
-  };
-
-  const handleExerciseFieldsChange = (id, field, value) => {
-    setExercises((prev) =>
-      prev.map((exercise) =>
-        exercise.id === id ? { ...exercise, [field]: value } : exercise,
-      ),
-    );
-
-    setFormErrors((prev) => ({
-      ...prev,
-      exercises: {
-        ...prev.exercises,
-        [id]: {
-          ...(prev.exercises[id] || {}),
-          [field]: "",
-        },
-      },
-    }));
   };
 
   const handleTemplateNameChange = (e) => {

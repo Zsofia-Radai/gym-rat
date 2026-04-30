@@ -6,16 +6,21 @@ import { Link } from "react-router-dom";
 import Button from "./components/Button/Button";
 import { validateForm } from "./utils/validation";
 import { createNewExercise } from "./utils/templateFormUtils";
+import { useExercises } from "./hooks/useExercises";
 
 function GymRat({ templates, setTemplates }) {
   const [toggleAddingTemplate, setToggleAddingTemplate] = useState(false);
   const [templateName, setTemplateName] = useState("");
-  const [exercises, setExercises] = useState([createNewExercise()]);
 
-  const [formErrors, setFormErrors] = useState({
-    templateName: "",
-    exercises: {},
-  });
+  const {
+    exercises,
+    setExercises,
+    addExercise,
+    deleteExercise,
+    formErrors,
+    setFormErrors,
+    handleExerciseFieldsChange,
+  } = useExercises([createNewExercise()]);
 
   useEffect(() => {
     localStorage.setItem("templates", JSON.stringify(templates));
@@ -44,10 +49,6 @@ function GymRat({ templates, setTemplates }) {
     setToggleAddingTemplate(!toggleAddingTemplate);
   };
 
-  const addExercise = () => {
-    setExercises((prev) => [...prev, createNewExercise()]);
-  };
-
   const deleteTemplate = (id) => {
     setTemplates((prev) => {
       const updatedTemplates = prev.filter((t) => t.id !== id);
@@ -56,37 +57,11 @@ function GymRat({ templates, setTemplates }) {
     });
   };
 
-  const deleteExercise = (id) => {
-    setExercises((prev) => prev.filter((ex) => ex.id !== id));
-  };
-
   const handleTemplateNameChange = (e) => {
     setTemplateName(e.target.value);
     setFormErrors((prev) => ({
       ...prev,
       templateName: "",
-    }));
-  };
-
-  const cleanValue = (value) => value.replace(/^0+(\d)/, "$1");
-
-  const handleExerciseFieldsChange = (id, field, value) => {
-    const cleanedValue = cleanValue(value);
-    setExercises((prev) =>
-      prev.map((exercise) =>
-        exercise.id === id ? { ...exercise, [field]: cleanedValue } : exercise,
-      ),
-    );
-
-    setFormErrors((prev) => ({
-      ...prev,
-      exercises: {
-        ...prev.exercises,
-        [id]: {
-          ...(prev.exercises[id] || {}),
-          [field]: "",
-        },
-      },
     }));
   };
 
