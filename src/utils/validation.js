@@ -21,7 +21,7 @@ export const validateForm = (templateName, exercises, setFormErrors) => {
     const exErrors = {};
 
     if (!ex.name.trim()) {
-      exErrors.name = "Required";
+      exErrors.name = "Exercise name is required";
     }
 
     if (!ex.sets || !isValidNumber(ex.sets)) {
@@ -32,7 +32,7 @@ export const validateForm = (templateName, exercises, setFormErrors) => {
       exErrors.reps = "Invalid";
     }
 
-    if (!ex.kg || !isValidKg(ex.kg)) {
+    if (!isValidKg(ex.kg)) {
       exErrors.kg = "Invalid";
     }
 

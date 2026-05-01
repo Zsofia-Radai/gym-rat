@@ -61,6 +61,7 @@ function EditTemplate({ templates, setTemplates }) {
 
   return (
     <div className="page">
+      <h2 className="template-details-header">Edit template</h2>
       <TemplateForm
         onSubmit={handleSaveTemplate}
         onCancel={cancelEdit}

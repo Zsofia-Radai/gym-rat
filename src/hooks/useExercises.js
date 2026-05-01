@@ -16,7 +16,7 @@ export function useExercises(initialExercises = []) {
     setExercises((prev) => prev.filter((ex) => ex.id !== id));
   };
 
-  const cleanValue = (value) => value.replace(/^0+(\d)/, "$1");
+  const cleanValue = (value) => value.replace(/\D/g, "").replace(/^0+/, "");
 
   const handleExerciseFieldsChange = (id, field, value) => {
     const cleanedValue = cleanValue(value);
