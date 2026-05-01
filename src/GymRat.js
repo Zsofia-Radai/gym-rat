@@ -8,6 +8,7 @@ import { validateForm } from "./utils/validation";
 import { createNewExercise } from "./utils/templateFormUtils";
 import { useExercises } from "./hooks/useExercises";
 import ToastNotification from "./components/ToastNotification/ToastNotification";
+import ConfirmDeleteModal from "./components/ConfirmDeleteModal/ConfirmDeleteModal";
 
 export const UI_STATE = {
   SAVE: "saved",
@@ -18,6 +19,7 @@ function GymRat({ templates, setTemplates }) {
   const [toggleAddingTemplate, setToggleAddingTemplate] = useState(false);
   const [templateName, setTemplateName] = useState("");
   const [uIState, setUIState] = useState(UI_STATE.IDLE);
+  const [templateToDelete, setTemplateToDelete] = useState(null);
 
   const {
     exercises,
@@ -140,8 +142,7 @@ function GymRat({ templates, setTemplates }) {
                 variant="icon"
                 onClick={(e) => {
                   e.preventDefault();
-                  e.stopPropagation();
-                  deleteTemplate(template.id);
+                  setTemplateToDelete(template);
                 }}
               >
                 <img src={deleteIcon} alt="Delete template" />
@@ -150,6 +151,15 @@ function GymRat({ templates, setTemplates }) {
           </Link>
         ))}
       </div>
+      {templateToDelete && (
+        <ConfirmDeleteModal
+          onCancel={() => setTemplateToDelete(null)}
+          onDelete={() => {
+            deleteTemplate(templateToDelete.id);
+            setTemplateToDelete(null);
+          }}
+        />
+      )}
     </div>
   );
 }

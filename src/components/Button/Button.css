@@ -18,6 +18,10 @@
     color: #022c22;
 }
 
+.btn-delete {
+    background: #a02b2b;
+}
+
 .btn-icon {
     background: none;
     padding: 0;

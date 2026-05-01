@@ -1,11 +1,12 @@
 .page {
   max-width: 40%;
-  margin: 20px auto;
+  margin: 30px auto;
   padding: 24px;
   background: white;
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.08);
   background-color: #25a3aec4;
+  position: relative;
 }
 
 hr {
