@@ -72,6 +72,7 @@ function TemplateForm({
                             exercise.id,
                             field.name,
                             e.target.value,
+                            field.inputMode,
                           )
                         }
                       />

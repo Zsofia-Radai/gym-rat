@@ -20,6 +20,40 @@ hr {
   font-weight: 600;
 }
 
+.new-template-button {
+  margin: 10px 0;
+}
+
+.notification {
+  background: #169116;
+  padding: 20px;
+  border-radius: 5px;
+  position: fixed;
+  right: 30%;
+  padding: 12px 16px;
+  border-radius: 10px;
+  z-index: 9999;
+  animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s forwards;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
 body {
   background: #0f172a;
   color: #e5e7eb;
@@ -65,4 +99,9 @@ input:focus {
 .template {
   cursor: pointer;
   transition: 0.2s;
+}
+
+.template:hover {
+  scale: 102%;
+  background: #34b229;
 }

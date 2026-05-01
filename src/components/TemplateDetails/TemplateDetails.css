@@ -1,13 +1,14 @@
 .template-details-header {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 10px 20px;
+    padding: 10px;
     justify-content: space-between;
+    background: #34b229;
+    border-radius: 5px;
 }
 
-.exercises {
-    padding: 10px;
+.template-details-header h2 {
+    margin: 10px;
 }
 
 .exercise {

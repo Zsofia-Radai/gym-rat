@@ -8,9 +8,18 @@ import { validateForm } from "./utils/validation";
 import { createNewExercise } from "./utils/templateFormUtils";
 import { useExercises } from "./hooks/useExercises";
 
+const UI_STATE = {
+  IDLE: "idle",
+  SAVING: "saving",
+  DELETING: "deleting",
+  SUCCESS: "success",
+  ERROR: "error",
+};
+
 function GymRat({ templates, setTemplates }) {
   const [toggleAddingTemplate, setToggleAddingTemplate] = useState(false);
   const [templateName, setTemplateName] = useState("");
+  const [uIState, setUIState] = useState(UI_STATE.IDLE);
 
   const {
     exercises,
@@ -72,7 +81,13 @@ function GymRat({ templates, setTemplates }) {
 
     if (!isValid) return;
 
+    setUIState(UI_STATE.SAVING);
+
     const template = createTemplate(templateName, exercises);
+
+    setTimeout(() => {
+      setUIState(UI_STATE.IDLE);
+    }, 1500);
 
     setTemplates((prev) => [...prev, template]);
     setTemplateName("");
@@ -82,13 +97,18 @@ function GymRat({ templates, setTemplates }) {
 
   return (
     <div className="page">
+      {uIState === UI_STATE.SAVING && (
+        <div className="notification">Template saved!</div>
+      )}
       <h2>GymRat</h2>
       <div>
         <div className="templates">Templates</div>
         <hr></hr>
-        <Button type="button" onClick={toggleAddingTemplateForm}>
-          New Template
-        </Button>
+        <div className="new-template-button">
+          <Button type="button" onClick={toggleAddingTemplateForm}>
+            New Template
+          </Button>
+        </div>
         {toggleAddingTemplate && (
           <NewTemplateForm
             onSubmit={handleSaveTemplate}

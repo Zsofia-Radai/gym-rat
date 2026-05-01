@@ -23,6 +23,7 @@ function TemplateDetails({ templates }) {
           </Button>
         </Link>
       </div>
+      <hr></hr>
       <div className="exercises">
         {template.exercises.map((exercise) => (
           <div key={exercise.id} className="exercise">
