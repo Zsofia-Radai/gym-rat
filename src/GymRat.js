@@ -7,13 +7,11 @@ import Button from "./components/Button/Button";
 import { validateForm } from "./utils/validation";
 import { createNewExercise } from "./utils/templateFormUtils";
 import { useExercises } from "./hooks/useExercises";
+import ToastNotification from "./components/ToastNotification/ToastNotification";
 
-const UI_STATE = {
-  IDLE: "idle",
-  SAVING: "saving",
-  DELETING: "deleting",
-  SUCCESS: "success",
-  ERROR: "error",
+export const UI_STATE = {
+  SAVE: "saved",
+  DELETE: "deleted",
 };
 
 function GymRat({ templates, setTemplates }) {
@@ -64,6 +62,11 @@ function GymRat({ templates, setTemplates }) {
       localStorage.setItem("templates", JSON.stringify(updatedTemplates));
       return updatedTemplates;
     });
+
+    setUIState(UI_STATE.DELETE);
+    setTimeout(() => {
+      setUIState(UI_STATE.IDLE);
+    }, 1500);
   };
 
   const handleTemplateNameChange = (e) => {
@@ -81,7 +84,7 @@ function GymRat({ templates, setTemplates }) {
 
     if (!isValid) return;
 
-    setUIState(UI_STATE.SAVING);
+    setUIState(UI_STATE.SAVE);
 
     const template = createTemplate(templateName, exercises);
 
@@ -97,8 +100,8 @@ function GymRat({ templates, setTemplates }) {
 
   return (
     <div className="page">
-      {uIState === UI_STATE.SAVING && (
-        <div className="notification">Template saved!</div>
+      {(uIState === UI_STATE.SAVE || uIState === UI_STATE.DELETE) && (
+        <ToastNotification type={uIState} />
       )}
       <h2>GymRat</h2>
       <div>
