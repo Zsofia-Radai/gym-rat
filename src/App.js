@@ -4,11 +4,17 @@ import TemplateDetails from "./components/TemplateDetails/TemplateDetails";
 import ErrorPage from "./ErrorPage";
 import { useState } from "react";
 import EditTemplate from "./components/EditTemplate/EditTemplate";
+import GymSession from "./components/GymSession/GymSession";
 
 function App() {
   const [templates, setTemplates] = useState(() => {
     const storedTemplates = JSON.parse(localStorage.getItem("templates"));
     return storedTemplates || [];
+  });
+
+  const [sessions, setSessions] = useState(() => {
+    const storedSessions = JSON.parse(localStorage.getItem("sessions"));
+    return storedSessions || [];
   });
 
   const router = createBrowserRouter([
@@ -19,7 +25,18 @@ function App() {
     },
     {
       path: "/template/:id",
-      element: <TemplateDetails templates={templates} />,
+      element: (
+        <TemplateDetails
+          templates={templates}
+          setSessions={setSessions}
+          sessions={sessions}
+        />
+      ),
+      errorElement: <ErrorPage />,
+    },
+    {
+      path: "/workout/session/:sessionId",
+      element: <GymSession sessions={sessions} setSessions={setSessions} />,
       errorElement: <ErrorPage />,
     },
     {

@@ -21,7 +21,7 @@ function TemplateForm({
     <div className="template-form">
       <form onSubmit={onSubmit}>
         <div className="template-form-header">
-          <div className="template-name">
+          <div>
             <input
               value={templateName}
               onChange={(e) => onTemplateNameChange(e)}

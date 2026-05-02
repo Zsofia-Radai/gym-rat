@@ -11,6 +11,11 @@
     margin: 10px;
 }
 
+.template-name {
+    display: flex;
+    align-items: center;
+}
+
 .exercise {
     display: flex;
     justify-content: space-between;

@@ -3,7 +3,7 @@ import "./ConfirmDeleteModal.css";
 
 function ConfirmDeleteModal({ onCancel, onDelete }) {
   return (
-    <div className="backdrop" onClick={oncancel}>
+    <div className="backdrop" onClick={onCancel}>
       <div className="modal">
         <div className="delete-modal-title">
           Are you sure you want to delete this template?
