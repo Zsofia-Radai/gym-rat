@@ -11,7 +11,7 @@ function ConfirmDeleteModal({ onCancel, onDelete }) {
         <div className="form-buttons">
           <Button onClick={onCancel}>Cancel</Button>
           <Button variant={"delete"} onClick={onDelete}>
-            Delete routine
+            Delete template
           </Button>
         </div>
       </div>

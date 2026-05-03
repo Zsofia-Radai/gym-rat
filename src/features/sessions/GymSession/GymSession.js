@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
-import deleteIcon from "../../resources/deleteIcon.svg";
-import Button from "../Button/Button";
+import deleteIcon from "../../../resources/deleteIcon.svg";
+import Button from "../../../components/ui/Button/Button";
 import styles from "./GymSession.module.css";
 import { useEffect, useState } from "react";
 

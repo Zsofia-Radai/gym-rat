@@ -1,11 +1,11 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import GymRat from "./GymRat";
-import TemplateDetails from "./components/TemplateDetails/TemplateDetails";
+import Templates from "./features/templates/Templates";
+import TemplateDetails from "./features/templates/TemplateDetails/TemplateDetails";
 import ErrorPage from "./ErrorPage";
 import { useState } from "react";
-import EditTemplate from "./components/EditTemplate/EditTemplate";
-import GymSession from "./components/GymSession/GymSession";
-import WorkoutSessions from "./components/WorkoutSessions/WorkoutSessions";
+import EditTemplate from "./features/templates/EditTemplate/EditTemplate";
+import GymSession from "./features/sessions/GymSession/GymSession";
+import GymSessions from "./features/sessions/GymSessions/GymSessions";
 
 function App() {
   const [templates, setTemplates] = useState(() => {
@@ -21,7 +21,7 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <GymRat templates={templates} setTemplates={setTemplates} />,
+      element: <Templates templates={templates} setTemplates={setTemplates} />,
       errorElement: <ErrorPage />,
     },
     {
@@ -42,9 +42,7 @@ function App() {
     },
     {
       path: "/workout/sessions",
-      element: (
-        <WorkoutSessions sessions={sessions} setSessions={setSessions} />
-      ),
+      element: <GymSessions sessions={sessions} setSessions={setSessions} />,
       errorElement: <ErrorPage />,
     },
     {

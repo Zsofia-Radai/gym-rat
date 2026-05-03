@@ -1,21 +1,21 @@
-import "./GymRat.css";
+import "./Templates.css";
 import { useEffect, useState } from "react";
-import deleteIcon from "./resources/deleteIcon.svg";
-import NewTemplateForm from "./components/NewTemplateForm/NewTemplateForm";
+import deleteIcon from "../../resources/deleteIcon.svg";
+import NewTemplateForm from "./NewTemplateForm/NewTemplateForm";
 import { Link } from "react-router-dom";
-import Button from "./components/Button/Button";
-import { validateForm } from "./utils/validation";
-import { createNewExercise } from "./utils/templateFormUtils";
-import { useExercises } from "./hooks/useExercises";
-import ToastNotification from "./components/ToastNotification/ToastNotification";
-import ConfirmDeleteModal from "./components/ConfirmDeleteModal/ConfirmDeleteModal";
+import Button from "../../components/ui/Button/Button";
+import { validateForm } from "../../utils/validation";
+import { createNewExercise } from "../../utils/templateFormUtils";
+import { useExercises } from "../../hooks/useExercises";
+import ToastNotification from "../../components/ui/ToastNotification/ToastNotification";
+import ConfirmDeleteModal from "../../components/ui/ConfirmDeleteModal/ConfirmDeleteModal";
 
 export const UI_STATE = {
   SAVE: "saved",
   DELETE: "deleted",
 };
 
-function GymRat({ templates, setTemplates }) {
+function Templates({ templates, setTemplates }) {
   const [toggleAddingTemplate, setToggleAddingTemplate] = useState(false);
   const [templateName, setTemplateName] = useState("");
   const [uIState, setUIState] = useState(UI_STATE.IDLE);
@@ -169,4 +169,4 @@ function GymRat({ templates, setTemplates }) {
   );
 }
 
-export default GymRat;
+export default Templates;

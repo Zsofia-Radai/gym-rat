@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import Button from "../Button/Button";
-import styles from "./WorkoutSession.module.css";
-import previous from "../../resources/previous.png";
-import deleteIcon from "../../resources/deleteIcon.svg";
+import Button from "../../../components/ui/Button/Button";
+import styles from "./GymSessions.module.css";
+import previous from "../../../resources/previous.png";
+import deleteIcon from "../../../resources/deleteIcon.svg";
 
 function WorkoutSessions({ sessions, setSessions }) {
   const navigate = useNavigate();

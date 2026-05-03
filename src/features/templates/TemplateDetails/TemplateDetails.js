@@ -1,7 +1,7 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import edit from "../../resources/edit.png";
-import previous from "../../resources/previous.png";
-import Button from "../Button/Button";
+import edit from "../../../resources/edit.png";
+import previous from "../../../resources/previous.png";
+import Button from "../../../components/ui/Button/Button";
 import "./TemplateDetails.css";
 import { useEffect } from "react";
 

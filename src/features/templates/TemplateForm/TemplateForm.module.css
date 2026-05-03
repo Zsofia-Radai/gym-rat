@@ -1,11 +1,11 @@
-.template-form-header {
+.templateFormHeader {
     display: flex;
     justify-content: space-between;
     align-items: start;
     margin: 0 0 10px;
 }
 
-.template-form {
+.templateForm {
     margin: 15px auto;
     padding: 24px;
     background: #1e293b;
@@ -13,17 +13,17 @@
     box-shadow: 0 10px 30px rgba(0,0,0,0.4);
 }
 
-.exercise-form {
+.exerciseForm {
     display: flex;
     flex-direction: column;
     gap: 3px;
 }
 
-.exercise-form input[type="number"] {
+.exerciseForm input[type="number"] {
     text-align: center;
 }
 
-.exercise-row {
+.exerciseRow {
     display: grid;
     grid-template-columns: 7fr 3fr 3fr 3fr 1fr;
     gap: 8px;
@@ -32,11 +32,11 @@
     box-sizing: border-box;
 }
 
-.exercise-row .icon-button {
+.exerciseRow .iconButton {
     align-self: center;
 }
 
-.exercise-row input {
+.exerciseRow input {
     width: 100%;
     min-width: 0;
     box-sizing: border-box;
@@ -47,7 +47,7 @@
     flex-direction: column;
 }
 
-.form-error-message {
+.formErrorMessage {
     height: 14px;
     font-size: 12px;
     margin: 3px 0 0 10px;
@@ -55,14 +55,14 @@
     color:#e41f1f;
 }
 
-.delete-cell, .cancel-cell {
+.deleteCell, .cancelButton {
     display: flex;
     align-items: center;
     justify-content: center;
     margin-top: 10px;
 }
 
-.template-form input {
+.templateForm input {
     padding: 12px;
     border-radius: 10px;
     border: 1px solid #334155;
@@ -71,15 +71,15 @@
     font-size: 16px;
 }
 
-.template-form input.input-error {
+.templateForm input.inputError {
   border: 1px solid red;
 }
 
-.numeric-input {
+.numericInput {
     text-align: center;
 }
 
-.exercise-container {
+.exerciseContainer {
     gap: 10px;
     padding: 12px;
     background: #0f172a;
@@ -88,7 +88,7 @@
     margin: 10px;
 }
 
-.exercise-header {
+.exerciseHeader {
     display: grid;
     grid-template-columns: 7fr 3fr 3fr 3fr 1fr;
     gap: 8px;
@@ -96,7 +96,7 @@
     text-align: center;
 }
 
-.exercise-header span {
+.exerciseHeader span {
     font-size: 0.7rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -104,7 +104,7 @@
     font-weight: 500;
 }
 
-.form-buttons {
+.formButtons {
     margin: 15px 0;
     display: flex;
     justify-content: space-between;

@@ -1,4 +1,4 @@
-import { UI_STATE } from "../../GymRat";
+import { UI_STATE } from "../../../features/templates/Templates";
 import "./ToastNotification.css";
 
 function ToastNotification({ type }) {
