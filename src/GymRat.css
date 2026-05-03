@@ -15,10 +15,12 @@ hr {
   background-color: #0f172a;;
 }
 
-.templates {
+.nav-links {
   margin: 20px 0 10px;
   font-size: 1.2rem;
   font-weight: 600;
+  display: flex;
+  gap: 20px;
 }
 
 .new-template-button {
@@ -60,10 +62,16 @@ input:focus {
 
 .template-link,
 .template-link:visited,
-.template-link:active {
+.template-link:active,
+.nav-link,
+.nav-linK:visited {
   text-decoration: none;
   color: inherit;
 }
+
+/* .nav-link:active {
+  color:#22c55e;
+} */
 
 .template-link {
   display: block;

@@ -107,7 +107,12 @@ function GymRat({ templates, setTemplates }) {
       )}
       <h2>GymRat</h2>
       <div>
-        <div className="templates">Templates</div>
+        <div className="nav-links">
+          <div>Templates</div>
+          <Link className="nav-link" to={"/workout/sessions"}>
+            <div>Sessions</div>
+          </Link>
+        </div>
         <hr></hr>
         <div className="new-template-button">
           <Button type="button" onClick={toggleAddingTemplateForm}>

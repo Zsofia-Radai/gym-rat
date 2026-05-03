@@ -2,11 +2,17 @@ import { useNavigate, useParams } from "react-router-dom";
 import deleteIcon from "../../resources/deleteIcon.svg";
 import Button from "../Button/Button";
 import styles from "./GymSession.module.css";
+import { useEffect, useState } from "react";
 
 function GymSession({ sessions, setSessions }) {
   const { sessionId } = useParams();
   const navigate = useNavigate();
   const session = sessions?.find((s) => s.id === sessionId);
+  const [formSession, setFormSession] = useState(session);
+
+  useEffect(() => {
+    console.log("sessions updated:", sessions);
+  }, [sessions]);
 
   if (!session) {
     return <div className="page">Session not found!</div>;
@@ -30,18 +36,16 @@ function GymSession({ sessions, setSessions }) {
   });
 
   function updateExerciseInSession(exerciseId, updateExercise) {
-    setSessions((prev) => {
-      return prev.map((session) => {
-        if (session.id !== sessionId) return session;
+    setFormSession((prev) => {
+      if (!prev) return prev;
 
-        return {
-          ...session,
-          exercises: session.exercises.map((exercise) => {
-            if (exercise.id !== exerciseId) return exercise;
-            return updateExercise(exercise);
-          }),
-        };
-      });
+      return {
+        ...prev,
+        exercises: prev.exercises.map((exercise) => {
+          if (exercise.id !== exerciseId) return exercise;
+          return updateExercise(exercise);
+        }),
+      };
     });
   }
 
@@ -88,17 +92,25 @@ function GymSession({ sessions, setSessions }) {
     );
   };
 
+  const saveSession = (e) => {
+    e.preventDefault();
+    setSessions((prev) =>
+      prev.map((session) => (session.id === sessionId ? formSession : session)),
+    );
+    navigate("/workout/sessions");
+  };
+
   return (
     <div className="page">
       <div className="template-details-header">
         <div>Log workout</div>
-        <Button type="delete" variant="delete" onClick={() => discardWorkout()}>
+        <Button type="button" variant="delete" onClick={() => discardWorkout()}>
           Discard workout
         </Button>
       </div>
       <hr></hr>
-      <div>
-        {session.exercises.map((exercise) => (
+      <form onSubmit={(e) => saveSession(e)}>
+        {formSession.exercises.map((exercise) => (
           <div key={exercise.id} className={styles.exerciseName}>
             <div>{exercise.name}</div>
             <div className={styles.exerciseHeader}>
@@ -142,7 +154,9 @@ function GymSession({ sessions, setSessions }) {
                   </Button>
                 </div>
               ))}
-              <Button onClick={() => addSet(exercise.id)}>Add set</Button>
+              <Button type="button" onClick={() => addSet(exercise.id)}>
+                Add set
+              </Button>
             </div>
           </div>
         ))}
@@ -151,7 +165,7 @@ function GymSession({ sessions, setSessions }) {
             Save session
           </Button>
         </div>
-      </div>
+      </form>
     </div>
   );
 }

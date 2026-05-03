@@ -38,7 +38,6 @@ function TemplateDetails({ templates, setSessions, sessions }) {
   const startSession = () => {
     const session = createSession();
     setSessions((prev) => [...prev, session]);
-    console.log("session started");
     navigate(`/workout/session/${session.id}`);
   };
 

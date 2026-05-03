@@ -5,6 +5,7 @@ import ErrorPage from "./ErrorPage";
 import { useState } from "react";
 import EditTemplate from "./components/EditTemplate/EditTemplate";
 import GymSession from "./components/GymSession/GymSession";
+import WorkoutSessions from "./components/WorkoutSessions/WorkoutSessions";
 
 function App() {
   const [templates, setTemplates] = useState(() => {
@@ -37,6 +38,13 @@ function App() {
     {
       path: "/workout/session/:sessionId",
       element: <GymSession sessions={sessions} setSessions={setSessions} />,
+      errorElement: <ErrorPage />,
+    },
+    {
+      path: "/workout/sessions",
+      element: (
+        <WorkoutSessions sessions={sessions} setSessions={setSessions} />
+      ),
       errorElement: <ErrorPage />,
     },
     {
