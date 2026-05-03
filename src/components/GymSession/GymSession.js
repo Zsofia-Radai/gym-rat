@@ -29,7 +29,7 @@ function GymSession({ sessions, setSessions }) {
     completed: false,
   });
 
-  const updateExerciseInSession = (exerciseId, updateExercise) => {
+  function updateExerciseInSession(exerciseId, updateExercise) {
     setSessions((prev) => {
       return prev.map((session) => {
         if (session.id !== sessionId) return session;
@@ -43,53 +43,49 @@ function GymSession({ sessions, setSessions }) {
         };
       });
     });
-  };
+  }
+
+  function updateSetinExercise(setId, exercise, updatedSet) {
+    return {
+      ...exercise,
+      sets: exercise.sets.map((set) => {
+        if (set.id !== setId) return set;
+
+        return updatedSet(set);
+      }),
+    };
+  }
 
   const addSet = (exerciseId) => {
-    setSessions((prev) => {
-      return prev.map((session) => {
-        if (session.id !== sessionId) return session;
+    updateExerciseInSession(exerciseId, (exercise) => ({
+      ...exercise,
+      sets: [...exercise.sets, createSet(exercise.sets.length)],
+    }));
+  };
 
-        return {
-          ...session,
-          exercises: session.exercises.map((exercise) => {
-            if (exercise.id !== exerciseId) return exercise;
+  const deleteSet = (exerciseId, setId) => {
+    updateExerciseInSession(exerciseId, (exercise) => {
+      const updatedSets = exercise.sets
+        .filter((s) => s.id !== setId)
+        .map((set, index) => ({
+          ...set,
+          setNumber: index + 1,
+        }));
 
-            return {
-              ...exercise,
-              sets: [...exercise.sets, createSet(exercise.sets.length)],
-            };
-          }),
-        };
-      });
+      return {
+        ...exercise,
+        sets: updatedSets,
+      };
     });
   };
 
   const handleSessionFieldsChange = (exerciseId, value, setId, field) => {
-    setSessions((prev) => {
-      return prev.map((session) => {
-        if (session.id !== sessionId) return session;
-
-        return {
-          ...session,
-          exercises: session.exercises.map((exercise) => {
-            if (exercise.id !== exerciseId) return exercise;
-
-            return {
-              ...exercise,
-              sets: exercise.sets.map((set) => {
-                if (set.id !== setId) return set;
-
-                return {
-                  ...set,
-                  [field]: value,
-                };
-              }),
-            };
-          }),
-        };
-      });
-    });
+    updateExerciseInSession(exerciseId, (exercise) =>
+      updateSetinExercise(setId, exercise, (set) => ({
+        ...set,
+        [field]: value,
+      })),
+    );
   };
 
   return (
@@ -137,7 +133,11 @@ function GymSession({ sessions, setSessions }) {
                     }
                     value={set.kg}
                   ></input>
-                  <Button type="icon" variant="icon">
+                  <Button
+                    type="icon"
+                    variant="icon"
+                    onClick={() => deleteSet(exercise.id, set.id)}
+                  >
                     <img src={deleteIcon} alt="Delete set" />
                   </Button>
                 </div>
