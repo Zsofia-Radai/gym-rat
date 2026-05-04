@@ -1,8 +1,12 @@
+import layout from "./layout/AppLayout.module.css";
+
 function ErrorPage() {
   return (
-    <div className="page">
-      <h1>404 - Page Not Found</h1>
-      <p>Sorry, the page you are looking for does not exist.</p>
+    <div className={`${layout.page} ${layout.narrow}`}>
+      <div className={layout.emptyState}>
+        <strong>404 - Page Not Found</strong>
+        <span>Sorry, the page you are looking for does not exist.</span>
+      </div>
     </div>
   );
 }

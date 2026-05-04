@@ -2,7 +2,8 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import edit from "../../../resources/edit.png";
 import previous from "../../../resources/previous.png";
 import Button from "../../../components/ui/Button/Button";
-import "./TemplateDetails.css";
+import layout from "../../../layout/AppLayout.module.css";
+import styles from "./TemplateDetails.module.css";
 import { useEffect } from "react";
 
 function TemplateDetails({ templates, setSessions, sessions }) {
@@ -15,7 +16,14 @@ function TemplateDetails({ templates, setSessions, sessions }) {
   }, [sessions]);
 
   if (!template) {
-    return <div>Template not found</div>;
+    return (
+      <div className={`${layout.page} ${layout.narrow}`}>
+        <div className={layout.emptyState}>
+          <strong>Template not found</strong>
+          <span>This workout template is no longer available.</span>
+        </div>
+      </div>
+    );
   }
 
   const createSession = () => ({
@@ -42,43 +50,81 @@ function TemplateDetails({ templates, setSessions, sessions }) {
   };
 
   return (
-    <div className="page">
-      <div className="template-details-header">
-        <div className="template-name">
-          <h2>{template.name}</h2>
+    <div className={`${layout.page} ${layout.wide}`}>
+      <header className={layout.topbar}>
+        <div className={layout.titleBlock}>
+          <p className={layout.overline}>Template</p>
+          <h2 className={layout.title}>{template.name}</h2>
+        </div>
+        <div className={styles.actions}>
           <Button variant={"submit"} onClick={() => startSession()}>
             Start workout
           </Button>
+          <Link to={`/template/${template.id}/edit`}>
+            <Button type="button" variant={"icon"}>
+              <img src={edit} alt="Edit exercise" />
+            </Button>
+          </Link>
         </div>
-        <Link to={`/template/${template.id}/edit`}>
-          <Button type="icon" variant={"icon"}>
-            <img src={edit} alt="Edit exercise" />
-          </Button>
-        </Link>
+      </header>
+
+      <div className={styles.metricStrip}>
+        <span className={styles.metric}>
+          <strong>{template.exercises.length}</strong> exercises
+        </span>
+        <span className={styles.metric}>
+          <strong>
+            {template.exercises.reduce(
+              (total, exercise) => total + Number(exercise.sets || 0),
+              0,
+            )}
+          </strong>
+          sets
+        </span>
+        <span className={styles.metric}>
+          <strong>
+            {template.exercises.reduce(
+              (total, exercise) =>
+                total +
+                Number(exercise.sets || 0) *
+                  Number(exercise.reps || 0) *
+                  Number(exercise.kg || 0),
+              0,
+            )}
+          </strong>
+          planned kg
+        </span>
       </div>
-      <hr></hr>
-      <div>
+
+      <div className={styles.exerciseList}>
         {template.exercises.map((exercise) => (
-          <div key={exercise.id} className="exercise">
-            <div>{exercise.name}</div>
+          <article key={exercise.id} className={styles.exerciseCard}>
             <div>
-              <div className="exercise-details-header">
-                <span>Sets</span>
-                <span>Reps</span>
-                <span>Kg</span>
-              </div>
-              <div className="exercise-details">
-                <span>{exercise.sets}</span>
-                <span>{exercise.reps}</span>
-                <span>{exercise.kg}</span>
-              </div>
+              <h3>{exercise.name}</h3>
+              <p>Workout movement</p>
             </div>
-          </div>
+            <dl className={styles.stats}>
+              <div>
+                <dt>Sets</dt>
+                <dd>{exercise.sets}</dd>
+              </div>
+              <div>
+                <dt>Reps</dt>
+                <dd>{exercise.reps}</dd>
+              </div>
+              <div>
+                <dt>Kg</dt>
+                <dd>{exercise.kg}</dd>
+              </div>
+            </dl>
+          </article>
         ))}
       </div>
-      <Button type="icon" variant={"icon"} onClick={() => navigate("/")}>
-        <img src={previous} alt="Back" />
-      </Button>
+      <div className={styles.backButton}>
+        <Button type="button" variant={"icon"} onClick={() => navigate("/")}>
+          <img src={previous} alt="Back" />
+        </Button>
+      </div>
     </div>
   );
 }

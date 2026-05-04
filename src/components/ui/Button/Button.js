@@ -1,17 +1,13 @@
-import "./Button.css";
+import styles from "./Button.module.css";
 
-function Button({
-  type = "button",
-  variant,
-  onClick,
-  children,
-  ...props
-}) {
+function Button({ type = "button", variant, onClick, children, ...props }) {
+  const variantClass = variant ? styles[variant] : "";
+
   return (
     <button
       type={type}
       onClick={onClick}
-      className={`btn btn-${variant}`}
+      className={`${styles.button} ${variantClass}`}
       {...props}
     >
       {children}

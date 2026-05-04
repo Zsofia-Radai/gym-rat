@@ -1,8 +1,9 @@
 import { useNavigate, useParams } from "react-router-dom";
 import deleteIcon from "../../../resources/deleteIcon.svg";
 import Button from "../../../components/ui/Button/Button";
+import layout from "../../../layout/AppLayout.module.css";
 import styles from "./GymSession.module.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 function GymSession({ sessions, setSessions }) {
   const { sessionId } = useParams();
@@ -10,12 +11,15 @@ function GymSession({ sessions, setSessions }) {
   const session = sessions?.find((s) => s.id === sessionId);
   const [formSession, setFormSession] = useState(session);
 
-  useEffect(() => {
-    console.log("sessions updated:", sessions);
-  }, [sessions]);
-
   if (!session) {
-    return <div className="page">Session not found!</div>;
+    return (
+      <div className={`${layout.page} ${layout.narrow}`}>
+        <div className={layout.emptyState}>
+          <strong>Session not found</strong>
+          <span>This workout session is no longer available.</span>
+        </div>
+      </div>
+    );
   }
 
   const discardWorkout = () => {
@@ -100,66 +104,105 @@ function GymSession({ sessions, setSessions }) {
     navigate("/workout/sessions");
   };
 
+  const totalSets =
+    formSession.exercises.reduce(
+      (total, exercise) => total + exercise.sets.length,
+      0,
+    ) || 0;
+  const completedSets = formSession.exercises.reduce(
+    (total, exercise) =>
+      total + exercise.sets.filter((set) => set.completed).length,
+    0,
+  );
+  const progressPercent = Math.round((completedSets / totalSets) * 100) || 0;
+
   return (
-    <div className="page">
-      <div className="template-details-header">
-        <div>Log workout</div>
+    <div className={`${layout.page} ${layout.wide}`}>
+      <header className={layout.topbar}>
+        <div className={layout.titleBlock}>
+          <p className={layout.overline}>Live workout</p>
+          <h2 className={layout.title}>{formSession.templateName}</h2>
+        </div>
         <Button type="button" variant="delete" onClick={() => discardWorkout()}>
-          Discard workout
+          Discard
         </Button>
+      </header>
+
+      <div className={`${layout.mutedPanel} ${styles.progressCard}`}>
+        <div>
+          <p className={layout.overline}>Progress</p>
+          <strong>
+            {completedSets} of {totalSets} sets
+          </strong>
+        </div>
+        <div
+          className={styles.progressRing}
+          style={{ "--progress": `${progressPercent}%` }}
+        >
+          {progressPercent}%
+        </div>
       </div>
-      <hr></hr>
-      <form onSubmit={(e) => saveSession(e)}>
-        {formSession.exercises.map((exercise) => (
-          <div key={exercise.id} className={styles.exerciseName}>
-            <div>{exercise.name}</div>
-            <div className={styles.exerciseHeader}>
-              <span>Set</span>
-              <span>Reps</span>
-              <span>Kg</span>
-              <span></span>
-            </div>
-            <div>
-              {exercise.sets.map((set, index) => (
-                <div key={set.id} className={styles.setRow}>
-                  <div className={styles.setNumber}>{set.setNumber}</div>
-                  <input
-                    onChange={(e) =>
-                      handleSessionFieldsChange(
-                        exercise.id,
-                        e.target.value,
-                        set.id,
-                        "reps",
-                      )
-                    }
-                    value={set.reps}
-                  ></input>
-                  <input
-                    onChange={(e) =>
-                      handleSessionFieldsChange(
-                        exercise.id,
-                        e.target.value,
-                        set.id,
-                        "kg",
-                      )
-                    }
-                    value={set.kg}
-                  ></input>
-                  <Button
-                    type="icon"
-                    variant="icon"
-                    onClick={() => deleteSet(exercise.id, set.id)}
-                  >
-                    <img src={deleteIcon} alt="Delete set" />
+
+      <form className={styles.sessionForm} onSubmit={(e) => saveSession(e)}>
+        <div className={styles.exerciseGrid}>
+          {formSession.exercises.map((exercise) => (
+            <article key={exercise.id} className={styles.exerciseCard}>
+              <header>
+                <div>
+                  <h3>{exercise.name}</h3>
+                  <span>{exercise.sets.length} sets</span>
+                </div>
+              </header>
+              <div className={styles.exerciseHeader}>
+                <span>Set</span>
+                <span>Reps</span>
+                <span>Kg</span>
+                <span></span>
+              </div>
+              <div>
+                {exercise.sets.map((set, index) => (
+                  <div key={set.id} className={styles.setRow}>
+                    <div className={styles.setNumber}>{set.setNumber}</div>
+                    <input
+                      onChange={(e) =>
+                        handleSessionFieldsChange(
+                          exercise.id,
+                          e.target.value,
+                          set.id,
+                          "reps",
+                        )
+                      }
+                      value={set.reps}
+                    ></input>
+                    <input
+                      onChange={(e) =>
+                        handleSessionFieldsChange(
+                          exercise.id,
+                          e.target.value,
+                          set.id,
+                          "kg",
+                        )
+                      }
+                      value={set.kg}
+                    ></input>
+                    <Button
+                      type="button"
+                      variant="icon"
+                      onClick={() => deleteSet(exercise.id, set.id)}
+                    >
+                      <img src={deleteIcon} alt="Delete set" />
+                    </Button>
+                  </div>
+                ))}
+                <div className={styles.addSet}>
+                  <Button type="button" onClick={() => addSet(exercise.id)}>
+                    Add set
                   </Button>
                 </div>
-              ))}
-              <Button type="button" onClick={() => addSet(exercise.id)}>
-                Add set
-              </Button>
-            </div>
-          </div>
-        ))}
+              </div>
+            </article>
+          ))}
+        </div>
         <div className={styles.sessionFormButton}>
           <Button type="submit" variant="submit">
             Save session

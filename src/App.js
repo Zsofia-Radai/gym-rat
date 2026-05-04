@@ -6,6 +6,7 @@ import EditTemplate from "./features/templates/EditTemplate/EditTemplate";
 import GymSession from "./features/sessions/GymSession/GymSession";
 import GymSessions from "./features/sessions/GymSessions/GymSessions";
 import ErrorPage from "./app/ErrorPage";
+import AppLayout from "./layout/AppLayout";
 
 function App() {
   const [templates, setTemplates] = useState(() => {
@@ -21,9 +22,24 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Templates templates={templates} setTemplates={setTemplates} />,
+      element: <AppLayout />,
       errorElement: <ErrorPage />,
+      children: [
+        {
+          path: "/",
+          element: (
+            <Templates templates={templates} setTemplates={setTemplates} />
+          ),
+        },
+        {
+          path: "/workout/sessions",
+          element: (
+            <GymSessions sessions={sessions} setSessions={setSessions} />
+          ),
+        },
+      ],
     },
+
     {
       path: "/template/:id",
       element: (
@@ -38,11 +54,6 @@ function App() {
     {
       path: "/workout/session/:sessionId",
       element: <GymSession sessions={sessions} setSessions={setSessions} />,
-      errorElement: <ErrorPage />,
-    },
-    {
-      path: "/workout/sessions",
-      element: <GymSessions sessions={sessions} setSessions={setSessions} />,
       errorElement: <ErrorPage />,
     },
     {
