@@ -1,11 +1,11 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Templates from "./features/templates/Templates";
 import TemplateDetails from "./features/templates/TemplateDetails/TemplateDetails";
-import ErrorPage from "./ErrorPage";
 import { useState } from "react";
 import EditTemplate from "./features/templates/EditTemplate/EditTemplate";
 import GymSession from "./features/sessions/GymSession/GymSession";
 import GymSessions from "./features/sessions/GymSessions/GymSessions";
+import ErrorPage from "./app/ErrorPage";
 
 function App() {
   const [templates, setTemplates] = useState(() => {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useExercises } from "../../../hooks/useExercises";
-import { validateForm } from "../../../utils/validation";
+import { validateTemplateForm } from "../../../utils/validation";
 import TemplateForm from "../TemplateForm/TemplateForm";
 
 function EditTemplate({ templates, setTemplates }) {
@@ -33,7 +33,7 @@ function EditTemplate({ templates, setTemplates }) {
   const handleSaveTemplate = (e) => {
     e.preventDefault();
 
-    const isValid = validateForm(name, exercises, setFormErrors);
+    const isValid = validateTemplateForm(name, exercises, setFormErrors);
 
     if (!isValid) return;
 

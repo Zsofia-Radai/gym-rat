@@ -7,7 +7,11 @@ const isValidKg = (value) => {
   return /^(0|[1-9]\d*)$/.test(str);
 };
 
-export const validateForm = (templateName, exercises, setFormErrors) => {
+export const validateTemplateForm = (
+  templateName,
+  exercises,
+  setFormErrors,
+) => {
   const errors = {
     templateName: "",
     exercises: {},

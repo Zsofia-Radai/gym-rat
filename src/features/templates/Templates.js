@@ -4,7 +4,7 @@ import deleteIcon from "../../resources/deleteIcon.svg";
 import NewTemplateForm from "./NewTemplateForm/NewTemplateForm";
 import { Link } from "react-router-dom";
 import Button from "../../components/ui/Button/Button";
-import { validateForm } from "../../utils/validation";
+import { validateTemplateForm } from "../../utils/validation";
 import { createNewExercise } from "../../utils/templateFormUtils";
 import { useExercises } from "../../hooks/useExercises";
 import ToastNotification from "../../components/ui/ToastNotification/ToastNotification";
@@ -46,7 +46,7 @@ function Templates({ templates, setTemplates }) {
   useEffect(() => {
     const storedTemplates = JSON.parse(localStorage.getItem("templates")) || [];
     setTemplates(storedTemplates);
-  }, [exercises, setTemplates]);
+  }, [setTemplates]);
 
   const toggleAddingTemplateForm = () => {
     setExercises([createNewExercise()]);
@@ -82,7 +82,11 @@ function Templates({ templates, setTemplates }) {
   const handleSaveTemplate = (e) => {
     e.preventDefault();
 
-    const isValid = validateForm(templateName, exercises, setFormErrors);
+    const isValid = validateTemplateForm(
+      templateName,
+      exercises,
+      setFormErrors,
+    );
 
     if (!isValid) return;
 
