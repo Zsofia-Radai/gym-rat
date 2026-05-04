@@ -1,14 +1,14 @@
 import { UI_STATE } from "../../../features/templates/Templates";
-import "./ToastNotification.css";
+import styles from "./ToastNotification.module.css";
 
 function ToastNotification({ type }) {
   const TYPE_CONFIG = {
     [UI_STATE.SAVE]: {
-      className: "save",
+      className: styles.save,
       message: "Template saved!",
     },
     [UI_STATE.DELETE]: {
-      className: "delete",
+      className: styles.delete,
       message: "Template deleted!",
     },
   };
@@ -17,7 +17,9 @@ function ToastNotification({ type }) {
   if (!config) return null;
 
   return (
-    <div className={`notification ${config.className}`}>{config.message}</div>
+    <div className={`${styles.notification} ${config.className}`}>
+      {config.message}
+    </div>
   );
 }
 

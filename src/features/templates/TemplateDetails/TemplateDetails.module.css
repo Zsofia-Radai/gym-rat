@@ -1,0 +1,110 @@
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.metricStrip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.metric {
+  min-height: 64px;
+  padding: 12px;
+  border: 1px solid var(--color-line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--color-muted);
+}
+
+.metric strong {
+  display: block;
+  color: var(--color-ink);
+  font-size: 1.25rem;
+}
+
+.exerciseList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+  gap: 12px;
+}
+
+.exerciseCard {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--color-line);
+  border-radius: 22px;
+  background: var(--color-panel);
+}
+
+.exerciseCard h3 {
+  margin: 0;
+  overflow: hidden;
+  color: var(--color-ink);
+  font-size: 1.02rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.exerciseCard p {
+  margin: 4px 0 0;
+  color: var(--color-muted);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 48px);
+  gap: 6px;
+  margin: 0;
+}
+
+.stats div {
+  text-align: center;
+}
+
+.stats dt {
+  color: var(--color-muted);
+  font-size: 0.65rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.stats dd {
+  margin: 2px 0 0;
+  color: var(--color-ink);
+  font-size: 1.12rem;
+  font-weight: 900;
+}
+
+.backButton {
+  margin-top: 18px;
+}
+
+@media (max-width: 640px) {
+  .actions {
+    align-self: stretch;
+    justify-content: space-between;
+  }
+
+  .metricStrip {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .exerciseList {
+    grid-template-columns: 1fr;
+  }
+
+  .exerciseCard {
+    grid-template-columns: 1fr;
+  }
+
+  .stats {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

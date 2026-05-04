@@ -1,111 +1,124 @@
-.templateFormHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: start;
-    margin: 0 0 10px;
+.templateForm {
+  margin: 18px auto;
+  padding: clamp(14px, 3vw, 22px);
+  border: 1px solid var(--color-line);
+  border-radius: 24px;
+  background: var(--color-panel);
+  box-shadow: var(--shadow-card);
 }
 
-.templateForm {
-    margin: 15px auto;
-    padding: 24px;
-    background: #1e293b;
-    border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+.templateFormHeader {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: start;
+  margin-bottom: 16px;
 }
 
 .exerciseForm {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
+  display: grid;
+  gap: 10px;
 }
 
-.exerciseForm input[type="number"] {
-    text-align: center;
-}
-
+.exerciseHeader,
 .exerciseRow {
-    display: grid;
-    grid-template-columns: 7fr 3fr 3fr 3fr 1fr;
-    gap: 8px;
-    align-items: start;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.exerciseRow .iconButton {
-    align-self: center;
-}
-
-.exerciseRow input {
-    width: 100%;
-    min-width: 0;
-    box-sizing: border-box;
-}
-
-.cell {
-    display: flex;
-    flex-direction: column;
-}
-
-.formErrorMessage {
-    height: 14px;
-    font-size: 12px;
-    margin: 3px 0 0 10px;
-    line-height: 14px;
-    color:#e41f1f;
-}
-
-.deleteCell, .cancelButton {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 10px;
-}
-
-.templateForm input {
-    padding: 12px;
-    border-radius: 10px;
-    border: 1px solid #334155;
-    background: #0f172a;
-    color: white;
-    font-size: 16px;
-}
-
-.templateForm input.inputError {
-  border: 1px solid red;
-}
-
-.numericInput {
-    text-align: center;
-}
-
-.exerciseContainer {
-    gap: 10px;
-    padding: 12px;
-    background: #0f172a;
-    border-radius: 12px;
-    border: 1px solid #334155;
-    margin: 10px;
+  display: grid;
+  grid-template-columns: minmax(180px, 1fr) 74px 74px 74px 44px;
+  gap: 8px;
+  align-items: center;
 }
 
 .exerciseHeader {
-    display: grid;
-    grid-template-columns: 7fr 3fr 3fr 3fr 1fr;
-    gap: 8px;
-    align-items: center;
-    text-align: center;
+  padding: 0 10px;
+  color: var(--color-muted);
+  font-size: 0.72rem;
+  font-weight: 900;
+  text-align: center;
+  text-transform: uppercase;
 }
 
-.exerciseHeader span {
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #999;
-    font-weight: 500;
+.exerciseRow {
+  padding: 10px;
+  border: 1px solid var(--color-line);
+  border-radius: 18px;
+  background: var(--color-panel-soft);
+}
+
+.cell {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.deleteCell,
+.cancelButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.templateForm input {
+  width: 100%;
+  min-width: 0;
+  height: 48px;
+  padding: 0 14px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 15px;
+  background: var(--color-field);
+  color: var(--color-ink);
+  font-size: 1rem;
+  outline: 0;
+}
+
+.templateForm input:focus {
+  border-color: rgba(24, 214, 132, 0.72);
+  box-shadow: 0 0 0 3px rgba(24, 214, 132, 0.14);
+}
+
+.templateForm input.inputError {
+  border-color: var(--color-danger);
+}
+
+.numericInput {
+  text-align: center;
+}
+
+.formErrorMessage {
+  min-height: 16px;
+  margin: 4px 0 0 2px;
+  color: #ffaaa5;
+  font-size: 0.76rem;
+  line-height: 1.25;
 }
 
 .formButtons {
-    margin: 15px 0;
-    display: flex;
-    justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+@media (max-width: 760px) {
+  .exerciseHeader {
+    display: none;
+  }
+
+  .exerciseRow {
+    grid-template-columns: minmax(0, 1fr) repeat(3, 62px) 38px;
+  }
+}
+
+@media (max-width: 520px) {
+  .exerciseRow {
+    grid-template-columns: 1fr repeat(3, minmax(48px, 1fr));
+  }
+
+  .deleteCell {
+    grid-column: 4;
+    justify-content: flex-end;
+  }
+
+  .formButtons {
+    grid-template-columns: 1fr;
+  }
 }
