@@ -37,7 +37,7 @@ function TemplateForm({
           </div>
 
           <div className={styles.cancelButton}>
-            <Button type="icon" variant={"icon"} onClick={onCancel}>
+            <Button type="button" variant={"icon"} onClick={onCancel}>
               <img src={closeIcon} alt="Close template form" />
             </Button>
           </div>
@@ -62,8 +62,8 @@ function TemplateForm({
                         type="text"
                         inputMode={field.inputMode}
                         className={`
-                          ${field.inputMode === "numeric" ? "numericInput" : ""}
-                          ${error ? "inputError" : ""}
+                          ${field.inputMode === "numeric" ? styles.numericInput : ""}
+                          ${error ? styles.inputError : ""}
                         `}
                         value={exercise[field.name]}
                         placeholder={field.placeholder}
@@ -86,7 +86,7 @@ function TemplateForm({
 
                 <div className={`${styles.cell} ${styles.deleteCell}`}>
                   <Button
-                    type="icon"
+                    type="button"
                     variant={"icon"}
                     onClick={() => onDeleteExercise(exercise.id)}
                     aria-label="Delete exercise"

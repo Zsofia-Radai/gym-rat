@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useExercises } from "../../../hooks/useExercises";
 import { validateTemplateForm } from "../../../utils/validation";
 import TemplateForm from "../TemplateForm/TemplateForm";
+import layout from "../../../layout/AppLayout.module.css";
 
 function EditTemplate({ templates, setTemplates }) {
   const { id } = useParams();
@@ -28,7 +29,16 @@ function EditTemplate({ templates, setTemplates }) {
     }
   }, [template, setExercises]);
 
-  if (!template) return <div>Template not found</div>;
+  if (!template) {
+    return (
+      <div className={`${layout.page} ${layout.narrow}`}>
+        <div className={layout.emptyState}>
+          <strong>Template not found</strong>
+          <span>This workout template is no longer available.</span>
+        </div>
+      </div>
+    );
+  }
 
   const handleSaveTemplate = (e) => {
     e.preventDefault();
@@ -60,11 +70,13 @@ function EditTemplate({ templates, setTemplates }) {
   };
 
   return (
-    <div className="page">
-      <div className="template-details-header">
-        <h2>Edit template: {name}</h2>
-      </div>
-      <hr></hr>
+    <div className={`${layout.page} ${layout.medium}`}>
+      <header className={layout.topbar}>
+        <div className={layout.titleBlock}>
+          <p className={layout.overline}>Edit template</p>
+          <h2 className={layout.title}>{name}</h2>
+        </div>
+      </header>
       <TemplateForm
         onSubmit={handleSaveTemplate}
         onCancel={cancelEdit}
