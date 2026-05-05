@@ -63,11 +63,41 @@ export function useSessions(session, setSessions) {
     });
   };
 
+  function sanitizeReps(value) {
+    let digits = value.replace(/\D/g, "");
+    if (digits === "") return "0";
+    if (/^0+$/.test(digits)) return "0";
+    return digits.replace(/^0+/, "");
+  }
+
+  function sanitizeKg(value) {
+    let cleaned = value.replace(/[^\d.]/g, "");
+    const parts = cleaned.split(".");
+    if (parts.length > 2) {
+      cleaned = parts[0] + "." + parts.slice(1).join("");
+    }
+    if (cleaned === "" || cleaned === ".") return "0";
+    if (!cleaned.startsWith("0.")) {
+      cleaned = cleaned.replace(/^0+/, "");
+    }
+    return cleaned || "0";
+  }
+
+  function cleanValue(value, field) {
+    if (field === "kg") {
+      return sanitizeKg(value);
+    }
+    if (field === "reps") {
+      return sanitizeReps(value);
+    }
+  }
+
   const updateSetField = (exerciseId, value, setId, field) => {
+    const cleanedValue = cleanValue(value, field);
     updateExerciseInSession(exerciseId, (exercise) =>
       updateSetinExercise(setId, exercise, (set) => ({
         ...set,
-        [field]: value,
+        [field]: cleanedValue,
       })),
     );
   };

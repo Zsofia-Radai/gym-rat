@@ -44,7 +44,11 @@ function App() {
         {
           path: "/workout/sessions",
           element: (
-            <GymSessions sessions={sessions} setSessions={setSessions} />
+            <GymSessions
+              sessions={sessions}
+              setSessions={setSessions}
+              showToast={showToast}
+            />
           ),
         },
       ],

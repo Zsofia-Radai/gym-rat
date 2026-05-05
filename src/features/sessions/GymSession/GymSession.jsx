@@ -12,14 +12,8 @@ function GymSession({ sessions, setSessions, showToast }) {
   const { sessionId } = useParams();
   const navigate = useNavigate();
   const session = sessions?.find((s) => s.id === sessionId);
-  const {
-    formSession,
-    addSet,
-    deleteSet,
-    updateSetField,
-    saveSession,
-    stats
-  } = useSessions(session, setSessions);
+  const { formSession, addSet, deleteSet, updateSetField, saveSession, stats } =
+    useSessions(session, setSessions);
 
   const { deleteSession } = useSessionsActions(setSessions);
 
@@ -73,7 +67,10 @@ function GymSession({ sessions, setSessions, showToast }) {
         </div>
       </div>
 
-      <form className={styles.sessionForm} onSubmit={(e) => handleSaveSession(e)}>
+      <form
+        className={styles.sessionForm}
+        onSubmit={(e) => handleSaveSession(e)}
+      >
         <div className={styles.exerciseGrid}>
           {formSession.exercises.map((exercise) => (
             <article key={exercise.id} className={styles.exerciseCard}>
