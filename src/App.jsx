@@ -7,6 +7,7 @@ import GymSession from "./features/sessions/GymSession/GymSession";
 import GymSessions from "./features/sessions/GymSessions/GymSessions";
 import ErrorPage from "./app/ErrorPage";
 import AppLayout from "./layout/AppLayout";
+import { TemplatesProvider } from "./context/TemplatesContext";
 
 function App() {
   const [templates, setTemplates] = useState(() => {
@@ -28,7 +29,7 @@ function App() {
         {
           path: "/",
           element: (
-            <Templates templates={templates} setTemplates={setTemplates} />
+            <Templates />
           ),
         },
         {
@@ -44,7 +45,6 @@ function App() {
       path: "/template/:id",
       element: (
         <TemplateDetails
-          templates={templates}
           setSessions={setSessions}
           sessions={sessions}
         />
@@ -59,13 +59,17 @@ function App() {
     {
       path: "/template/:id/edit",
       element: (
-        <EditTemplate templates={templates} setTemplates={setTemplates} />
+        <EditTemplate />
       ),
       errorElement: <ErrorPage />,
     },
   ]);
 
-  return <RouterProvider router={router} />;
+  return (
+    <TemplatesProvider>
+      <RouterProvider router={router} />
+    </TemplatesProvider>
+  )
 }
 
 export default App;

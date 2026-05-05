@@ -4,10 +4,13 @@ import { useExercises } from "../../../hooks/useExercises";
 import { validateTemplateForm } from "../../../utils/validation";
 import TemplateForm from "../TemplateForm/TemplateForm";
 import layout from "../../../layout/AppLayout.module.css";
+import { useTemplates } from "../../../context/TemplatesContext";
 
-function EditTemplate({ templates, setTemplates }) {
+function EditTemplate() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { templates, updateTemplate } = useTemplates();
+
   const template = templates.find((t) => t.id === id);
 
   const [name, setName] = useState(template.name);
@@ -48,11 +51,7 @@ function EditTemplate({ templates, setTemplates }) {
     if (!isValid) return;
 
     setName(template.name);
-    setTemplates((prev) =>
-      prev.map((t) => {
-        return t.id === id ? { ...t, name, exercises } : t;
-      }),
-    );
+    updateTemplate(template.id, name, exercises);
 
     navigate(`/template/${id}`);
   };

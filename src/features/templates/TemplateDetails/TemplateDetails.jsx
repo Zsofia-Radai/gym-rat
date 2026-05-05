@@ -5,10 +5,12 @@ import Button from "../../../components/ui/Button/Button";
 import layout from "../../../layout/AppLayout.module.css";
 import styles from "./TemplateDetails.module.css";
 import { useEffect } from "react";
+import { useTemplates } from "../../../context/TemplatesContext";
 
-function TemplateDetails({ templates, setSessions, sessions }) {
+function TemplateDetails({ setSessions, sessions }) {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { templates } = useTemplates();
   const template = templates.find((t) => t.id === id);
 
   useEffect(() => {

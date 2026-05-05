@@ -10,13 +10,15 @@ import { createNewExercise } from "../../utils/templateFormUtils";
 import { validateTemplateForm } from "../../utils/validation";
 import NewTemplateForm from "./NewTemplateForm/NewTemplateForm";
 import styles from "./Templates.module.css";
+import { useTemplates } from "../../context/TemplatesContext";
 
 export const UI_STATE = {
   SAVE: "saved",
   DELETE: "deleted",
+  IDLE: "idle"
 };
 
-function Templates({ templates, setTemplates }) {
+function Templates() {
   const [toggleAddingTemplate, setToggleAddingTemplate] = useState(false);
   const [templateName, setTemplateName] = useState("");
   const [uIState, setUIState] = useState(UI_STATE.IDLE);
@@ -32,22 +34,7 @@ function Templates({ templates, setTemplates }) {
     handleExerciseFieldsChange,
   } = useExercises([createNewExercise()]);
 
-  useEffect(() => {
-    localStorage.setItem("templates", JSON.stringify(templates));
-  }, [templates]);
-
-  const createTemplate = (name, exercises) => {
-    return {
-      id: crypto.randomUUID(),
-      name: name,
-      exercises: exercises,
-    };
-  };
-
-  useEffect(() => {
-    const storedTemplates = JSON.parse(localStorage.getItem("templates")) || [];
-    setTemplates(storedTemplates);
-  }, [setTemplates]);
+  const { templates, addTemplate, deleteTemaple } = useTemplates();
 
   const toggleAddingTemplateForm = () => {
     setExercises([createNewExercise()]);
@@ -60,11 +47,7 @@ function Templates({ templates, setTemplates }) {
   };
 
   const deleteTemplate = (id) => {
-    setTemplates((prev) => {
-      const updatedTemplates = prev.filter((t) => t.id !== id);
-      localStorage.setItem("templates", JSON.stringify(updatedTemplates));
-      return updatedTemplates;
-    });
+    deleteTemaple(id);
 
     setUIState(UI_STATE.DELETE);
     setTimeout(() => {
@@ -93,13 +76,12 @@ function Templates({ templates, setTemplates }) {
 
     setUIState(UI_STATE.SAVE);
 
-    const template = createTemplate(templateName, exercises);
+    addTemplate(templateName, exercises);
 
     setTimeout(() => {
       setUIState(UI_STATE.IDLE);
     }, 1500);
 
-    setTemplates((prev) => [...prev, template]);
     setTemplateName("");
     setExercises([createNewExercise()]);
     setToggleAddingTemplate(false);
