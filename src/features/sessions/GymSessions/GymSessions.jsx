@@ -1,55 +1,19 @@
 import Button from "../../../components/ui/Button/Button";
+import { useSessions } from "../../../hooks/useSessions";
+import { useSessionsActions } from "../../../hooks/useSessionsActions";
+import { useSessionsList } from "../../../hooks/useSessionsList";
 import layout from "../../../layout/AppLayout.module.css";
 import deleteIcon from "../../../resources/deleteIcon.svg";
+import { formatDate, formatDay } from "../../../utils/sessionsUtils";
 import styles from "./GymSessions.module.css";
 
 function WorkoutSessions({ sessions, setSessions }) {
-  function formatDate(timestamp) {
-    return new Date(timestamp).toLocaleString("hu-HU", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  }
+  const { deleteSession } = useSessionsActions(setSessions);
+  const { sortedSessions, totalVolume } = useSessionsList(sessions);
 
-  function formatDay(timestamp) {
-    return new Date(timestamp).toLocaleDateString("en-US", {
-      month: "short",
-      day: "2-digit",
-    });
-  }
-
-  const sortedSessions = [...sessions].sort(
-    (a, b) => b.startedAt - a.startedAt,
-  );
-
-  const deleteSession = (sessionId) => {
-    setSessions((prev) => {
-      const updatedSessions = prev.filter(
-        (session) => session.id !== sessionId,
-      );
-      localStorage.setItem("sessions", JSON.stringify(updatedSessions));
-      return updatedSessions;
-    });
+  const handleDeleteSession = (sessionId) => {
+    deleteSession(sessionId);
   };
-
-  const totalVolume = sessions.reduce(
-    (sessionTotal, session) =>
-      sessionTotal +
-      session.exercises.reduce(
-        (exerciseTotal, exercise) =>
-          exerciseTotal +
-          exercise.sets.reduce(
-            (setTotal, set) =>
-              setTotal + Number(set.reps || 0) * Number(set.kg || 0),
-            0,
-          ),
-        0,
-      ),
-    0,
-  );
 
   return (
     <div>
@@ -93,7 +57,7 @@ function WorkoutSessions({ sessions, setSessions }) {
               variant="icon"
               onClick={(e) => {
                 e.preventDefault();
-                deleteSession(session.id);
+                handleDeleteSession(session.id);
               }}
             >
               <img src={deleteIcon} alt="Delete template" />

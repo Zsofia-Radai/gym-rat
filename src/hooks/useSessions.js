@@ -78,17 +78,13 @@ export function useSessions(session, setSessions) {
     );
   };
 
-  const deleteSession = (sessionId) => {
-    setSessions((prev) => prev.filter((session) => session.id !== sessionId));
-  };
-
   const totalSets =
-    formSession.exercises.reduce(
+    session?.exercises.reduce(
       (total, exercise) => total + exercise.sets.length,
       0,
     ) || 0;
 
-  const completedSets = formSession.exercises.reduce(
+  const completedSets = session?.exercises.reduce(
     (total, exercise) =>
       total + exercise.sets.filter((set) => set.completed).length,
     0,
@@ -108,7 +104,6 @@ export function useSessions(session, setSessions) {
     deleteSet,
     updateSetField,
     saveSession,
-    deleteSession,
     stats,
   };
 }

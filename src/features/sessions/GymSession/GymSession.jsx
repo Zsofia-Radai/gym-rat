@@ -5,6 +5,7 @@ import layout from "../../../layout/AppLayout.module.css";
 import styles from "./GymSession.module.css";
 import { useState } from "react";
 import { useSessions } from "../../../hooks/useSessions";
+import { useSessionsActions } from "../../../hooks/useSessionsActions";
 
 function GymSession({ sessions, setSessions }) {
   const { sessionId } = useParams();
@@ -16,9 +17,10 @@ function GymSession({ sessions, setSessions }) {
     deleteSet,
     updateSetField,
     saveSession,
-    deleteSession,
     stats
   } = useSessions(session, setSessions);
+
+  const { deleteSession } = useSessionsActions(setSessions);
 
   if (!session) {
     return (
