@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Button from "../../../components/ui/Button/Button";
 import { useSessions } from "../../../hooks/useSessions";
 import { useSessionsActions } from "../../../hooks/useSessionsActions";
@@ -6,13 +7,17 @@ import layout from "../../../layout/AppLayout.module.css";
 import deleteIcon from "../../../resources/deleteIcon.svg";
 import { formatDate, formatDay } from "../../../utils/sessionsUtils";
 import styles from "./GymSessions.module.css";
+import ConfirmDeleteModal from "../../../components/ui/ConfirmDeleteModal/ConfirmDeleteModal";
+import { TOAST_TYPE } from "../../../App";
 
-function WorkoutSessions({ sessions, setSessions }) {
+function GymSessions({ sessions, setSessions, showToast }) {
   const { deleteSession } = useSessionsActions(setSessions);
   const { sortedSessions, totalVolume } = useSessionsList(sessions);
+  const [sessionToDelete, setSessionToDelete] = useState(null);
 
   const handleDeleteSession = (sessionId) => {
     deleteSession(sessionId);
+    showToast("Session deleted!", TOAST_TYPE.DELETE);
   };
 
   return (
@@ -57,7 +62,7 @@ function WorkoutSessions({ sessions, setSessions }) {
               variant="icon"
               onClick={(e) => {
                 e.preventDefault();
-                handleDeleteSession(session.id);
+                setSessionToDelete(session);
               }}
             >
               <img src={deleteIcon} alt="Delete template" />
@@ -65,8 +70,18 @@ function WorkoutSessions({ sessions, setSessions }) {
           </div>
         ))}
       </div>
+      {sessionToDelete && (
+        <ConfirmDeleteModal
+          onCancel={() => setSessionToDelete(null)}
+          onDelete={() => {
+            handleDeleteSession(sessionToDelete.id);
+            setSessionToDelete(null);
+          }}
+          type={"session"}
+        />
+      )}
     </div>
   );
 }
 
-export default WorkoutSessions;
+export default GymSessions;

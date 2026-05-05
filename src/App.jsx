@@ -8,16 +8,28 @@ import GymSessions from "./features/sessions/GymSessions/GymSessions";
 import ErrorPage from "./app/ErrorPage";
 import AppLayout from "./layout/AppLayout";
 import { TemplatesProvider } from "./context/TemplatesContext";
+import ToastNotification from "./components/ui/ToastNotification/ToastNotification";
+
+export const TOAST_TYPE = {
+  SAVE: "save",
+  DELETE: "delete",
+};
 
 function App() {
+  const [toast, setToast] = useState();
   const [sessions, setSessions] = useState(() => {
     const storedSessions = JSON.parse(localStorage.getItem("sessions"));
     return storedSessions || [];
   });
 
   useEffect(() => {
-    localStorage.setItem("sessions", JSON.stringify(sessions))
-  }, [sessions])
+    localStorage.setItem("sessions", JSON.stringify(sessions));
+  }, [sessions]);
+
+  const showToast = (message, type = TOAST_TYPE.SAVE) => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 1500);
+  };
 
   const router = createBrowserRouter([
     {
@@ -27,9 +39,7 @@ function App() {
       children: [
         {
           path: "/",
-          element: (
-            <Templates />
-          ),
+          element: <Templates showToast={showToast} />,
         },
         {
           path: "/workout/sessions",
@@ -43,32 +53,34 @@ function App() {
     {
       path: "/template/:id",
       element: (
-        <TemplateDetails
-          setSessions={setSessions}
-          sessions={sessions}
-        />
+        <TemplateDetails setSessions={setSessions} sessions={sessions} />
       ),
       errorElement: <ErrorPage />,
     },
     {
       path: "/workout/session/:sessionId",
-      element: <GymSession sessions={sessions} setSessions={setSessions} />,
+      element: (
+        <GymSession
+          sessions={sessions}
+          setSessions={setSessions}
+          showToast={showToast}
+        />
+      ),
       errorElement: <ErrorPage />,
     },
     {
       path: "/template/:id/edit",
-      element: (
-        <EditTemplate />
-      ),
+      element: <EditTemplate />,
       errorElement: <ErrorPage />,
     },
   ]);
 
   return (
     <TemplatesProvider>
+      {toast && <ToastNotification type={toast.type} message={toast.message} />}
       <RouterProvider router={router} />
     </TemplatesProvider>
-  )
+  );
 }
 
 export default App;

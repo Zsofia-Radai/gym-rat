@@ -6,8 +6,9 @@ import styles from "./GymSession.module.css";
 import { useState } from "react";
 import { useSessions } from "../../../hooks/useSessions";
 import { useSessionsActions } from "../../../hooks/useSessionsActions";
+import { TOAST_TYPE } from "../../../App";
 
-function GymSession({ sessions, setSessions }) {
+function GymSession({ sessions, setSessions, showToast }) {
   const { sessionId } = useParams();
   const navigate = useNavigate();
   const session = sessions?.find((s) => s.id === sessionId);
@@ -41,6 +42,7 @@ function GymSession({ sessions, setSessions }) {
   const handleSaveSession = (e) => {
     e.preventDefault();
     saveSession(session.id);
+    showToast("Session saved!", TOAST_TYPE.SAVE);
     navigate("/workout/sessions");
   };
 

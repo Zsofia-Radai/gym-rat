@@ -76,10 +76,9 @@ function TemplateForm({
                           )
                         }
                       />
-
-                      {error && (
-                        <div className={styles.formErrorMessage}>{error}</div>
-                      )}
+                      <div className={styles.formErrorMessage}>
+                        {error || "\u00A0"}
+                      </div>
                     </div>
                   );
                 })}
@@ -93,6 +92,7 @@ function TemplateForm({
                   >
                     <img src={deleteIcon} alt="Delete exercise" />
                   </Button>
+                  <span className={styles.error}>&nbsp;</span>
                 </div>
               </div>
             </React.Fragment>

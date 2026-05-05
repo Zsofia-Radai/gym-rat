@@ -11,17 +11,11 @@ import { validateTemplateForm } from "../../utils/validation";
 import NewTemplateForm from "./NewTemplateForm/NewTemplateForm";
 import styles from "./Templates.module.css";
 import { useTemplates } from "../../context/TemplatesContext";
+import { TOAST_TYPE } from "../../App";
 
-export const UI_STATE = {
-  SAVE: "saved",
-  DELETE: "deleted",
-  IDLE: "idle"
-};
-
-function Templates() {
+function Templates({showToast}) {
   const [toggleAddingTemplate, setToggleAddingTemplate] = useState(false);
   const [templateName, setTemplateName] = useState("");
-  const [uIState, setUIState] = useState(UI_STATE.IDLE);
   const [templateToDelete, setTemplateToDelete] = useState(null);
 
   const {
@@ -48,11 +42,7 @@ function Templates() {
 
   const deleteTemplate = (id) => {
     deleteTemaple(id);
-
-    setUIState(UI_STATE.DELETE);
-    setTimeout(() => {
-      setUIState(UI_STATE.IDLE);
-    }, 1500);
+    showToast("Template deleted!", TOAST_TYPE.DELETE);
   };
 
   const handleTemplateNameChange = (e) => {
@@ -65,23 +55,14 @@ function Templates() {
 
   const handleSaveTemplate = (e) => {
     e.preventDefault();
-
     const isValid = validateTemplateForm(
       templateName,
       exercises,
       setFormErrors,
     );
-
     if (!isValid) return;
-
-    setUIState(UI_STATE.SAVE);
-
     addTemplate(templateName, exercises);
-
-    setTimeout(() => {
-      setUIState(UI_STATE.IDLE);
-    }, 1500);
-
+    showToast("Template saved!", TOAST_TYPE.SAVE);
     setTemplateName("");
     setExercises([createNewExercise()]);
     setToggleAddingTemplate(false);
@@ -89,9 +70,6 @@ function Templates() {
 
   return (
     <div>
-      {(uIState === UI_STATE.SAVE || uIState === UI_STATE.DELETE) && (
-        <ToastNotification type={uIState} />
-      )}
       <div className={`${layout.mutedPanel} ${styles.heroPanel}`}>
         <div>
           <p className={layout.overline}>Ready when you are</p>
@@ -170,6 +148,7 @@ function Templates() {
             deleteTemplate(templateToDelete.id);
             setTemplateToDelete(null);
           }}
+          type={"template"}
         />
       )}
     </div>
