@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Templates from "./features/templates/Templates";
 import TemplateDetails from "./features/templates/TemplateDetails/TemplateDetails";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import EditTemplate from "./features/templates/EditTemplate/EditTemplate";
 import GymSession from "./features/sessions/GymSession/GymSession";
 import GymSessions from "./features/sessions/GymSessions/GymSessions";
@@ -10,15 +10,14 @@ import AppLayout from "./layout/AppLayout";
 import { TemplatesProvider } from "./context/TemplatesContext";
 
 function App() {
-  const [templates, setTemplates] = useState(() => {
-    const storedTemplates = JSON.parse(localStorage.getItem("templates"));
-    return storedTemplates || [];
-  });
-
   const [sessions, setSessions] = useState(() => {
     const storedSessions = JSON.parse(localStorage.getItem("sessions"));
     return storedSessions || [];
   });
+
+  useEffect(() => {
+    localStorage.setItem("sessions", JSON.stringify(sessions))
+  }, [sessions])
 
   const router = createBrowserRouter([
     {

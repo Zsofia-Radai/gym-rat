@@ -4,12 +4,21 @@ import Button from "../../../components/ui/Button/Button";
 import layout from "../../../layout/AppLayout.module.css";
 import styles from "./GymSession.module.css";
 import { useState } from "react";
+import { useSessions } from "../../../hooks/useSessions";
 
 function GymSession({ sessions, setSessions }) {
   const { sessionId } = useParams();
   const navigate = useNavigate();
   const session = sessions?.find((s) => s.id === sessionId);
-  const [formSession, setFormSession] = useState(session);
+  const {
+    formSession,
+    addSet,
+    deleteSet,
+    updateSetField,
+    saveSession,
+    deleteSession,
+    stats
+  } = useSessions(session, setSessions);
 
   if (!session) {
     return (
@@ -23,98 +32,15 @@ function GymSession({ sessions, setSessions }) {
   }
 
   const discardWorkout = () => {
-    setSessions((prev) => {
-      const updatedSessions = prev.filter((s) => s.id !== sessionId);
-      localStorage.setItem("sessions", JSON.stringify(updatedSessions));
-      return updatedSessions;
-    });
+    deleteSession(session.id);
     navigate(-1);
   };
 
-  const createSet = (setNumber) => ({
-    id: crypto.randomUUID(),
-    setNumber: setNumber + 1,
-    reps: 0,
-    kg: 0,
-    completed: false,
-  });
-
-  function updateExerciseInSession(exerciseId, updateExercise) {
-    setFormSession((prev) => {
-      if (!prev) return prev;
-
-      return {
-        ...prev,
-        exercises: prev.exercises.map((exercise) => {
-          if (exercise.id !== exerciseId) return exercise;
-          return updateExercise(exercise);
-        }),
-      };
-    });
-  }
-
-  function updateSetinExercise(setId, exercise, updatedSet) {
-    return {
-      ...exercise,
-      sets: exercise.sets.map((set) => {
-        if (set.id !== setId) return set;
-
-        return updatedSet(set);
-      }),
-    };
-  }
-
-  const addSet = (exerciseId) => {
-    updateExerciseInSession(exerciseId, (exercise) => ({
-      ...exercise,
-      sets: [...exercise.sets, createSet(exercise.sets.length)],
-    }));
-  };
-
-  const deleteSet = (exerciseId, setId) => {
-    updateExerciseInSession(exerciseId, (exercise) => {
-      const updatedSets = exercise.sets
-        .filter((s) => s.id !== setId)
-        .map((set, index) => ({
-          ...set,
-          setNumber: index + 1,
-        }));
-
-      return {
-        ...exercise,
-        sets: updatedSets,
-      };
-    });
-  };
-
-  const handleSessionFieldsChange = (exerciseId, value, setId, field) => {
-    updateExerciseInSession(exerciseId, (exercise) =>
-      updateSetinExercise(setId, exercise, (set) => ({
-        ...set,
-        [field]: value,
-      })),
-    );
-  };
-
-  const saveSession = (e) => {
+  const handleSaveSession = (e) => {
     e.preventDefault();
-    setSessions((prev) =>
-      prev.map((session) => (session.id === sessionId ? formSession : session)),
-    );
+    saveSession(session.id);
     navigate("/workout/sessions");
   };
-
-  const totalSets =
-    formSession.exercises.reduce(
-      (total, exercise) => total + exercise.sets.length,
-      0,
-    ) || 0;
-  const completedSets = formSession.exercises.reduce(
-    (total, exercise) =>
-      total + exercise.sets.filter((set) => set.completed).length,
-    0,
-  );
-  const progressPercent = Math.round((completedSets / totalSets) * 100) || 0;
 
   return (
     <div className={`${layout.page} ${layout.wide}`}>
@@ -132,18 +58,18 @@ function GymSession({ sessions, setSessions }) {
         <div>
           <p className={layout.overline}>Progress</p>
           <strong>
-            {completedSets} of {totalSets} sets
+            {stats.completedSets} of {stats.totalSets} sets
           </strong>
         </div>
         <div
           className={styles.progressRing}
-          style={{ "--progress": `${progressPercent}%` }}
+          style={{ "--progress": `${stats.progressPercent}%` }}
         >
-          {progressPercent}%
+          {stats.progressPercent}%
         </div>
       </div>
 
-      <form className={styles.sessionForm} onSubmit={(e) => saveSession(e)}>
+      <form className={styles.sessionForm} onSubmit={(e) => handleSaveSession(e)}>
         <div className={styles.exerciseGrid}>
           {formSession.exercises.map((exercise) => (
             <article key={exercise.id} className={styles.exerciseCard}>
@@ -165,7 +91,7 @@ function GymSession({ sessions, setSessions }) {
                     <div className={styles.setNumber}>{set.setNumber}</div>
                     <input
                       onChange={(e) =>
-                        handleSessionFieldsChange(
+                        updateSetField(
                           exercise.id,
                           e.target.value,
                           set.id,
@@ -176,7 +102,7 @@ function GymSession({ sessions, setSessions }) {
                     ></input>
                     <input
                       onChange={(e) =>
-                        handleSessionFieldsChange(
+                        updateSetField(
                           exercise.id,
                           e.target.value,
                           set.id,
