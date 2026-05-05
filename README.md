@@ -1,1 +1,4 @@
-<img width="606" height="618" alt="image" src="https://github.com/user-attachments/assets/a2cb708b-2365-46fb-8cdb-a9cd71f1b705" />
+GymRat is a mobile-optimized web app to plan workouts and track training sessions.
+
+<img width="1527" height="1207" alt="Képernyőkép 2026-05-05 110826" src="https://github.com/user-attachments/assets/cd16e914-b0b0-4fc9-b209-657c65c841ba" />
+
