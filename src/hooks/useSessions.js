@@ -103,8 +103,18 @@ export function useSessions(session, setSessions) {
   };
 
   const saveSession = (sessionId) => {
+    const finishedAt = Date.now();
+
+    const updatedSession = {
+      ...formSession,
+      finishedAt,
+      durationMs: finishedAt - formSession.startedAt,
+    };
+
     setSessions((prev) =>
-      prev.map((session) => (session.id === sessionId ? formSession : session)),
+      prev.map((session) =>
+        session.id === sessionId ? updatedSession : session,
+      ),
     );
   };
 

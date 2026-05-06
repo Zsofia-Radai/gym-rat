@@ -6,6 +6,7 @@ import layout from "../../../layout/AppLayout.module.css";
 import styles from "./TemplateDetails.module.css";
 import { useEffect } from "react";
 import { useTemplates } from "../../../context/TemplatesContext";
+import { createSession } from "../../../utils/sessionsUtils";
 
 function TemplateDetails({ setSessions, sessions }) {
   const { id } = useParams();
@@ -28,25 +29,8 @@ function TemplateDetails({ setSessions, sessions }) {
     );
   }
 
-  const createSession = () => ({
-    id: crypto.randomUUID(),
-    templateName: template.name,
-    templateId: template.id,
-    startedAt: Date.now(),
-    exercises: template.exercises.map((exercise) => ({
-      ...exercise,
-      sets: Array.from({ length: exercise.sets }, (_, i) => ({
-        id: crypto.randomUUID(),
-        setNumber: i + 1,
-        reps: exercise.reps,
-        kg: exercise.kg,
-        completed: false,
-      })),
-    })),
-  });
-
   const startSession = () => {
-    const session = createSession();
+    const session = createSession(template);
     setSessions((prev) => [...prev, session]);
     navigate(`/workout/session/${session.id}`);
   };

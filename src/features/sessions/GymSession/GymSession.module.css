@@ -13,6 +13,23 @@
   font-size: 1.25rem;
 }
 
+.progressStats {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  flex: 1;
+}
+
+.statBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.timer {
+  font-variant-numeric: tabular-nums;
+}
+
 .progressRing {
   display: grid;
   place-items: center;
@@ -22,7 +39,10 @@
   border-radius: 50%;
   background:
     radial-gradient(circle at center, #13211d 55%, transparent 57%),
-    conic-gradient(var(--color-accent) 0 var(--progress), rgba(255, 255, 255, 0.14) var(--progress) 100%);
+    conic-gradient(
+      var(--color-accent) 0 var(--progress),
+      rgba(255, 255, 255, 0.14) var(--progress) 100%
+    );
   color: var(--color-ink);
   font-size: 0.86rem;
   font-weight: 900;

@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useSessions } from "../../../hooks/useSessions";
 import { useSessionsActions } from "../../../hooks/useSessionsActions";
 import { TOAST_TYPE } from "../../../App";
+import { useSessionTimer } from "../../../hooks/useSessionTimer";
 
 function GymSession({ sessions, setSessions, showToast }) {
   const { sessionId } = useParams();
@@ -14,8 +15,8 @@ function GymSession({ sessions, setSessions, showToast }) {
   const session = sessions?.find((s) => s.id === sessionId);
   const { formSession, addSet, deleteSet, updateSetField, saveSession, stats } =
     useSessions(session, setSessions);
-
   const { deleteSession } = useSessionsActions(setSessions);
+  const { formattedTime } = useSessionTimer(session?.startedAt);
 
   if (!session) {
     return (
@@ -53,11 +54,17 @@ function GymSession({ sessions, setSessions, showToast }) {
       </header>
 
       <div className={`${layout.mutedPanel} ${styles.progressCard}`}>
-        <div>
-          <p className={layout.overline}>Progress</p>
-          <strong>
-            {stats.completedSets} of {stats.totalSets} sets
-          </strong>
+        <div className={styles.progressStats}>
+          <div className={styles.statBlock}>
+            <p className={layout.overline}>Progress</p>
+            <strong>
+              {stats.completedSets} of {stats.totalSets} sets
+            </strong>
+          </div>
+          <div className={styles.statBlock}>
+            <p className={layout.overline}>Duration</p>
+            <strong className={styles.timer}>{formattedTime}</strong>
+          </div>
         </div>
         <div
           className={styles.progressRing}
