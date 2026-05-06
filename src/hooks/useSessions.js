@@ -139,17 +139,25 @@ export function useSessions(session, setSessions) {
     );
   };
 
-  const totalSets =
-    session?.exercises.reduce(
-      (total, exercise) => total + exercise.sets.length,
-      0,
-    ) || 0;
+  const getTotalSets = (session) => {
+    return (
+      session?.exercises.reduce(
+        (total, exercise) => total + exercise.sets.length,
+        0,
+      ) ?? 0
+    );
+  };
 
-  const completedSets = session?.exercises.reduce(
-    (total, exercise) =>
-      total + exercise.sets.filter((set) => set.completed).length,
-    0,
-  );
+  const totalSets = getTotalSets(formSession);
+
+  const completedSets =
+    formSession?.exercises.reduce((total, exercise) => {
+      const completedInExercise = exercise.sets.filter(
+        (set) => set.completed,
+      ).length;
+
+      return total + completedInExercise;
+    }, 0) ?? 0;
 
   const progressPercent = Math.round((completedSets / totalSets) * 100) || 0;
 
