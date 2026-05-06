@@ -13,8 +13,15 @@ function GymSession({ sessions, setSessions, showToast }) {
   const { sessionId } = useParams();
   const navigate = useNavigate();
   const session = sessions?.find((s) => s.id === sessionId);
-  const { formSession, addSet, deleteSet, updateSetField, saveSession, stats } =
-    useSessions(session, setSessions);
+  const {
+    formSession,
+    addSet,
+    deleteSet,
+    updateSetField,
+    saveSession,
+    stats,
+    toggleSetCompleted,
+  } = useSessions(session, setSessions);
   const { deleteSession } = useSessionsActions(setSessions);
   const { formattedTime } = useSessionTimer(session?.startedAt);
 
@@ -95,8 +102,16 @@ function GymSession({ sessions, setSessions, showToast }) {
               </div>
               <div>
                 {exercise.sets.map((set, index) => (
-                  <div key={set.id} className={styles.setRow}>
-                    <div className={styles.setNumber}>{set.setNumber}</div>
+                  <div
+                    key={set.id}
+                    className={`${styles.setRow} ${set.completed ? styles.completedRow : ""}`}
+                  >
+                    <Button
+                      className={`${styles.setBadge} ${set.completed ? styles.completed : ""}`}
+                      onClick={() => toggleSetCompleted(exercise.id, set.id)}
+                    >
+                      {set.completed ? "✓" : set.setNumber}
+                    </Button>
                     <input
                       onChange={(e) =>
                         updateSetField(

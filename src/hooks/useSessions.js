@@ -15,6 +15,27 @@ export function useSessions(session, setSessions) {
     setSessions((prev) => prev.filter((s) => s.id !== sessionId));
   };
 
+  const toggleSetCompleted = (exerciseId, setId) => {
+    setFormSession((prev) => ({
+      ...prev,
+      exercises: prev.exercises.map((exercise) =>
+        exercise.id !== exerciseId
+          ? exercise
+          : {
+              ...exercise,
+              sets: exercise.sets.map((set) =>
+                set.id !== setId
+                  ? set
+                  : {
+                      ...set,
+                      completed: !set.completed,
+                    },
+              ),
+            },
+      ),
+    }));
+  };
+
   function updateExerciseInSession(exerciseId, updateExercise) {
     setFormSession((prev) => {
       if (!prev) return prev;
@@ -145,5 +166,6 @@ export function useSessions(session, setSessions) {
     updateSetField,
     saveSession,
     stats,
+    toggleSetCompleted,
   };
 }

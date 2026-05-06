@@ -102,7 +102,7 @@
   text-transform: uppercase;
 }
 
-.setNumber {
+.setBadge {
   display: grid;
   place-items: center;
   width: 54px;
@@ -112,6 +112,14 @@
   background: var(--color-blue);
   color: var(--color-ink);
   font-weight: 900;
+}
+
+.setBadge.completed {
+  background: #22c55e;
+}
+
+.completedRow {
+  opacity: 0.7;
 }
 
 .setRow input {
@@ -160,7 +168,7 @@
     gap: 6px;
   }
 
-  .setNumber {
+  .setBadge {
     width: 48px;
   }
 
