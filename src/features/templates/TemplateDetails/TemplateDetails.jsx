@@ -54,12 +54,15 @@ function TemplateDetails({ setSessions, sessions }) {
         </div>
       </header>
 
-      <div className={styles.metricStrip}>
-        <span className={styles.metric}>
-          <strong>{template.exercises.length}</strong> exercises
+      <div className={layout.metricGrid}>
+        <span className={layout.statCard}>
+          <strong className={layout.statValue}>
+            {template.exercises.length}
+          </strong>{" "}
+          exercises
         </span>
-        <span className={styles.metric}>
-          <strong>
+        <span className={layout.statCard}>
+          <strong className={layout.statValue}>
             {template.exercises.reduce(
               (total, exercise) => total + Number(exercise.sets || 0),
               0,
@@ -67,8 +70,8 @@ function TemplateDetails({ setSessions, sessions }) {
           </strong>
           sets
         </span>
-        <span className={styles.metric}>
-          <strong>
+        <span className={layout.statCard}>
+          <strong className={layout.statValue}>
             {template.exercises.reduce(
               (total, exercise) =>
                 total +

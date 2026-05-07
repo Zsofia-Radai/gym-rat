@@ -61,6 +61,21 @@
   border: 1px solid var(--color-line);
   border-radius: 20px;
   background: var(--color-panel);
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.session:hover {
+  transform: translateY(-2px);
+  border-color: rgba(24, 214, 132, 0.36);
+  background: rgba(17, 29, 38, 0.94);
+}
+
+.sessionLink {
+  color: inherit;
+  text-decoration: none;
 }
 
 .dateChip {

@@ -9,6 +9,7 @@ import { formatDate, formatDay } from "../../../utils/sessionsUtils";
 import styles from "./GymSessions.module.css";
 import ConfirmDeleteModal from "../../../components/ui/ConfirmDeleteModal/ConfirmDeleteModal";
 import { TOAST_TYPE } from "../../../App";
+import { Link } from "react-router-dom";
 
 function GymSessions({ sessions, setSessions, showToast }) {
   const { deleteSession } = useSessionsActions(setSessions);
@@ -47,7 +48,11 @@ function GymSessions({ sessions, setSessions, showToast }) {
 
       <div className={styles.sessionList}>
         {sortedSessions.map((session) => (
-          <div className={styles.session} key={session.id}>
+          <Link
+            className={`${styles.session} ${styles.sessionLink}`}
+            to={`/session/${session.id}`}
+            key={session.id}
+          >
             <span className={styles.dateChip}>
               {formatDay(session.startedAt)}
             </span>
@@ -67,7 +72,7 @@ function GymSessions({ sessions, setSessions, showToast }) {
             >
               <img src={deleteIcon} alt="Delete template" />
             </Button>
-          </div>
+          </Link>
         ))}
       </div>
       {sessionToDelete && (

@@ -107,6 +107,10 @@
   color: var(--color-muted);
   font-weight: 800;
   text-decoration: none;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .activeTab {
@@ -117,7 +121,11 @@
 .mutedPanel {
   border: 1px solid var(--color-line);
   border-radius: 22px;
-  background: linear-gradient(135deg, rgba(24, 214, 132, 0.16), rgba(49, 91, 255, 0.13));
+  background: linear-gradient(
+    135deg,
+    rgba(24, 214, 132, 0.16),
+    rgba(49, 91, 255, 0.13)
+  );
 }
 
 .emptyState {
@@ -136,6 +144,35 @@
   font-size: 1.1rem;
 }
 
+.metricGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.statCard {
+  min-height: 64px;
+  padding: 12px;
+  border: 1px solid var(--color-line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--color-muted);
+}
+
+.statValue {
+  display: block;
+  color: var(--color-ink);
+  font-size: 1.25rem;
+}
+
 @media (max-width: 640px) {
   .page {
     width: min(100% - 18px, 460px);
@@ -147,5 +184,9 @@
   .topbar,
   .compactHeader {
     margin-bottom: 8px;
+  }
+
+  .statsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

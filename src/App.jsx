@@ -9,6 +9,7 @@ import ErrorPage from "./app/ErrorPage";
 import AppLayout from "./layout/AppLayout";
 import { TemplatesProvider } from "./context/TemplatesContext";
 import ToastNotification from "./components/ui/ToastNotification/ToastNotification";
+import GymSessionDetails from "./features/sessions/GymSessionDetails/GymSessionDetails";
 
 export const TOAST_TYPE = {
   SAVE: "save",
@@ -70,6 +71,11 @@ function App() {
           showToast={showToast}
         />
       ),
+      errorElement: <ErrorPage />,
+    },
+    {
+      path: "/session/:sessionId",
+      element: <GymSessionDetails sessions={sessions} />,
       errorElement: <ErrorPage />,
     },
     {
