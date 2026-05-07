@@ -140,13 +140,23 @@ npm test
 
 ## Current Test Coverage
 
-The project uses Vitest and Testing Library. It currently includes a smoke test that verifies the app renders successfully. The next useful testing step would be adding interaction tests for:
+The project uses Vitest and Testing Library for user-focused workflow tests. The current test suite covers:
 
-- creating a template
-- editing a template
-- starting a workout session
-- completing sets
-- saving a session
+- rendering the GymRat home screen
+- showing the empty Templates state
+- navigating to the Sessions tab
+- showing the empty Sessions state
+- creating a workout template through the UI
+- displaying the saved template and success toast
+- validating required template form fields
+
+The next useful testing step would be adding workflow tests for:
+
+- editing an existing template
+- starting a workout session from a template
+- completing sets during a live session
+- saving a completed session
+- opening a saved session detail page
 - deleting templates and sessions
 
 ## Future Improvements
