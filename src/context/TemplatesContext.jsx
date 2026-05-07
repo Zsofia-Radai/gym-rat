@@ -26,7 +26,7 @@ export function TemplatesProvider({ children }) {
     setTemplates((prev) => [...prev, newTemplate]);
   };
 
-  const deleteTemaple = (id) => {
+  const deleteTemplate = (id) => {
     setTemplates((prev) => prev.filter((t) => t.id !== id));
   };
 
@@ -43,7 +43,7 @@ export function TemplatesProvider({ children }) {
       value={{
         templates,
         addTemplate,
-        deleteTemaple,
+        deleteTemplate,
         updateTemplate,
       }}
     >
@@ -56,7 +56,7 @@ export function useTemplates() {
   const context = useContext(TemplatesContext);
 
   if (!context) {
-    throw new Error("useTemplates must be used inside TemapltesProvider");
+    throw new Error("useTemplates must be used inside TemaplatesProvider");
   }
 
   return context;

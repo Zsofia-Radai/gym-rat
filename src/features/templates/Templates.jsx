@@ -13,7 +13,7 @@ import styles from "./Templates.module.css";
 import { useTemplates } from "../../context/TemplatesContext";
 import { TOAST_TYPE } from "../../App";
 
-function Templates({showToast}) {
+function Templates({ showToast }) {
   const [toggleAddingTemplate, setToggleAddingTemplate] = useState(false);
   const [templateName, setTemplateName] = useState("");
   const [templateToDelete, setTemplateToDelete] = useState(null);
@@ -28,7 +28,7 @@ function Templates({showToast}) {
     handleExerciseFieldsChange,
   } = useExercises([createNewExercise()]);
 
-  const { templates, addTemplate, deleteTemaple } = useTemplates();
+  const { templates, addTemplate, deleteTemplate } = useTemplates();
 
   const toggleAddingTemplateForm = () => {
     setExercises([createNewExercise()]);
@@ -41,7 +41,7 @@ function Templates({showToast}) {
   };
 
   const deleteTemplate = (id) => {
-    deleteTemaple(id);
+    deleteTemplate(id);
     showToast("Template deleted!", TOAST_TYPE.DELETE);
   };
 
