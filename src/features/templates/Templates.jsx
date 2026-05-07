@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "../../components/ui/Button/Button";
 import ConfirmDeleteModal from "../../components/ui/ConfirmDeleteModal/ConfirmDeleteModal";
-import ToastNotification from "../../components/ui/ToastNotification/ToastNotification";
 import { useExercises } from "../../hooks/useExercises";
 import layout from "../../layout/AppLayout.module.css";
 import deleteIcon from "../../resources/deleteIcon.svg";
@@ -40,7 +39,7 @@ function Templates({ showToast }) {
     setToggleAddingTemplate(!toggleAddingTemplate);
   };
 
-  const deleteTemplate = (id) => {
+  const handleDeleteTemplate = (id) => {
     deleteTemplate(id);
     showToast("Template deleted!", TOAST_TYPE.DELETE);
   };
@@ -145,7 +144,7 @@ function Templates({ showToast }) {
         <ConfirmDeleteModal
           onCancel={() => setTemplateToDelete(null)}
           onDelete={() => {
-            deleteTemplate(templateToDelete.id);
+            handleDeleteTemplate(templateToDelete.id);
             setTemplateToDelete(null);
           }}
           type={"template"}
