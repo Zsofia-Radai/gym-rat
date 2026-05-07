@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
+import { validateSessionForm } from "../utils/validation";
 
 export function useSessions(session, setSessions) {
-  const [formSession, setFormSession] = useState(session);
+  const [sessionForm, setSessionForm] = useState(session);
+  const [sessionFormErrors, setSessionFormErrors] = useState({
+    exercises: {},
+  });
 
   const createSet = (setNumber) => ({
     id: crypto.randomUUID(),
@@ -16,28 +20,66 @@ export function useSessions(session, setSessions) {
   };
 
   const toggleSetCompleted = (exerciseId, setId) => {
-    setFormSession((prev) => ({
+    setSessionForm((prev) => ({
       ...prev,
       exercises: prev.exercises.map((exercise) =>
         exercise.id !== exerciseId
           ? exercise
           : {
               ...exercise,
-              sets: exercise.sets.map((set) =>
-                set.id !== setId
-                  ? set
-                  : {
-                      ...set,
-                      completed: !set.completed,
-                    },
-              ),
+              sets: exercise.sets.map((set) => {
+                if (set.id !== setId) return set;
+
+                const nextCompleted = !set.completed;
+
+                if (nextCompleted) {
+                  removeSetError(exerciseId, setId);
+                }
+
+                return {
+                  ...set,
+                  completed: nextCompleted,
+                };
+              }),
             },
       ),
     }));
   };
 
+  const removeSetError = (exerciseId, setId) => {
+    setSessionFormErrors((prev) => {
+      const exerciseError = prev.exercises?.[exerciseId];
+
+      if (!exerciseError) return prev;
+
+      const updatedIncompleteSets = exerciseError.incompleteSets.filter(
+        (id) => id !== setId,
+      );
+
+      if (updatedIncompleteSets.length === 0) {
+        const { [exerciseId]: _, ...remainingExercises } = prev.exercises;
+
+        return {
+          ...prev,
+          exercises: remainingExercises,
+        };
+      }
+
+      return {
+        ...prev,
+        exercises: {
+          ...prev.exercises,
+          [exerciseId]: {
+            ...exerciseError,
+            incompleteSets: updatedIncompleteSets,
+          },
+        },
+      };
+    });
+  };
+
   function updateExerciseInSession(exerciseId, updateExercise) {
-    setFormSession((prev) => {
+    setSessionForm((prev) => {
       if (!prev) return prev;
 
       return {
@@ -127,9 +169,9 @@ export function useSessions(session, setSessions) {
     const finishedAt = Date.now();
 
     const updatedSession = {
-      ...formSession,
+      ...sessionForm,
       finishedAt,
-      durationMs: finishedAt - formSession.startedAt,
+      durationMs: finishedAt - sessionForm.startedAt,
     };
 
     setSessions((prev) =>
@@ -148,10 +190,10 @@ export function useSessions(session, setSessions) {
     );
   };
 
-  const totalSets = getTotalSets(formSession);
+  const totalSets = getTotalSets(sessionForm);
 
   const completedSets =
-    formSession?.exercises.reduce((total, exercise) => {
+    sessionForm?.exercises.reduce((total, exercise) => {
       const completedInExercise = exercise.sets.filter(
         (set) => set.completed,
       ).length;
@@ -168,12 +210,14 @@ export function useSessions(session, setSessions) {
   };
 
   return {
-    formSession,
+    sessionForm,
     addSet,
     deleteSet,
     updateSetField,
     saveSession,
     stats,
     toggleSetCompleted,
+    sessionFormErrors,
+    setSessionFormErrors,
   };
 }

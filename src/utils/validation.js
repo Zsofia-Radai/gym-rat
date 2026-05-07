@@ -52,3 +52,24 @@ export const validateTemplateForm = (
 
   return isValid;
 };
+
+export const validateSessionForm = (formSession) => {
+  const errors = {
+    exercises: {},
+  };
+
+  formSession.exercises.forEach((exercise) => {
+    const incompleteSets = exercise.sets
+      .filter((set) => set.completed !== true)
+      .map((set) => set.id);
+
+    if (incompleteSets.length > 0) {
+      errors.exercises[exercise.id] = {
+        name: exercise.name,
+        incompleteSets,
+      };
+    }
+  });
+
+  return errors;
+};

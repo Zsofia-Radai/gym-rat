@@ -8,19 +8,22 @@ import { useSessions } from "../../../hooks/useSessions";
 import { useSessionsActions } from "../../../hooks/useSessionsActions";
 import { TOAST_TYPE } from "../../../App";
 import { useSessionTimer } from "../../../hooks/useSessionTimer";
+import { validateSessionForm } from "../../../utils/validation";
 
 function GymSession({ sessions, setSessions, showToast }) {
   const { sessionId } = useParams();
   const navigate = useNavigate();
   const session = sessions?.find((s) => s.id === sessionId);
   const {
-    formSession,
+    sessionForm,
     addSet,
     deleteSet,
     updateSetField,
     saveSession,
     stats,
     toggleSetCompleted,
+    sessionFormErrors,
+    setSessionFormErrors,
   } = useSessions(session, setSessions);
   const { deleteSession } = useSessionsActions(setSessions);
   const { formattedTime } = useSessionTimer(session?.startedAt);
@@ -43,6 +46,12 @@ function GymSession({ sessions, setSessions, showToast }) {
 
   const handleSaveSession = (e) => {
     e.preventDefault();
+
+    const errors = validateSessionForm(sessionForm);
+    setSessionFormErrors(errors);
+    const hasErrors = Object.keys(errors.exercises).length > 0;
+    if (hasErrors) return;
+
     saveSession(session.id);
     showToast("Session saved!", TOAST_TYPE.SAVE);
     navigate("/workout/sessions");
@@ -53,7 +62,7 @@ function GymSession({ sessions, setSessions, showToast }) {
       <header className={layout.topbar}>
         <div className={layout.titleBlock}>
           <p className={layout.overline}>Live workout</p>
-          <h2 className={layout.title}>{formSession.templateName}</h2>
+          <h2 className={layout.title}>{sessionForm.templateName}</h2>
         </div>
         <Button type="button" variant="delete" onClick={() => discardWorkout()}>
           Discard
@@ -86,7 +95,7 @@ function GymSession({ sessions, setSessions, showToast }) {
         onSubmit={(e) => handleSaveSession(e)}
       >
         <div className={styles.exerciseGrid}>
-          {formSession.exercises.map((exercise) => (
+          {sessionForm.exercises.map((exercise) => (
             <article key={exercise.id} className={styles.exerciseCard}>
               <header>
                 <div>
@@ -107,7 +116,17 @@ function GymSession({ sessions, setSessions, showToast }) {
                     className={`${styles.setRow} ${set.completed ? styles.completedRow : ""}`}
                   >
                     <Button
-                      className={`${styles.setBadge} ${set.completed ? styles.completed : ""}`}
+                      className={`
+                        ${styles.setBadge}
+                        ${set.completed ? styles.completed : ""}
+                        ${
+                          sessionFormErrors.exercises?.[
+                            exercise.id
+                          ]?.incompleteSets.includes(set.id)
+                            ? styles.error
+                            : ""
+                        }
+                      `}
                       onClick={() => toggleSetCompleted(exercise.id, set.id)}
                     >
                       {set.completed ? "✓" : set.setNumber}
