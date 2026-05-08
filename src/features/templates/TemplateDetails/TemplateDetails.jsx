@@ -90,7 +90,6 @@ function TemplateDetails({ setSessions, sessions }) {
           <article key={exercise.id} className={styles.exerciseCard}>
             <div>
               <h3>{exercise.name}</h3>
-              <p>Workout movement</p>
             </div>
             <dl className={styles.stats}>
               <div>

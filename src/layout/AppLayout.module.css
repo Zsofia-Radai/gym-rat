@@ -1,5 +1,4 @@
 .page {
-  position: relative;
   width: min(1120px, calc(100% - 28px));
   min-height: min(760px, calc(100dvh - 48px));
   margin: 24px auto;
@@ -26,7 +25,6 @@
 }
 
 .page > * {
-  position: relative;
   z-index: 1;
 }
 

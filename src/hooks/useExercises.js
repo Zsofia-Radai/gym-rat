@@ -16,15 +16,26 @@ export function useExercises(initialExercises = []) {
     setExercises((prev) => prev.filter((ex) => ex.id !== id));
   };
 
-  const cleanValue = (value, inputMode) => {
+  const cleanValue = (value, inputMode, field) => {
     if (inputMode === "numeric") {
-      return value.replace(/\D/g, "").replace(/^0+/, "");
+      const digits = value.replace(/\D/g, "");
+
+      if (field === "kg") {
+        if (digits === "0") return "0";
+
+        return digits.replace(/^0+(?=\d)/, "");
+      }
+
+      if (digits === "") return "";
+
+      return digits.replace(/^0+/, "");
     }
+
     return value;
   };
 
   const handleExerciseFieldsChange = (id, field, value, inputMode) => {
-    const cleanedValue = cleanValue(value, inputMode);
+    const cleanedValue = cleanValue(value, inputMode, field);
     setExercises((prev) =>
       prev.map((exercise) =>
         exercise.id === id ? { ...exercise, [field]: cleanedValue } : exercise,
